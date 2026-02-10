@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo San Valentin - Beauty Coiffure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-purple: #4a148c;
+            --brand-soft-purple: #7b1fa2;
+            --brand-gold: #c5a059;
+            --professional-bg: #f4f1f8;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--professional-bg);
+            /* Patron sutil profesional */
+            background-image: radial-gradient(#d8b4fe 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .script-font {
+            font-family: 'Great Vibes', cursive;
+        }
+        .promo-card {
+            background: white;
+            border-left: 5px solid var(--brand-purple);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border-radius: 0 1rem 1rem 0;
+        }
+        .promo-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 30px -5px rgba(74, 20, 140, 0.15);
+            background-color: #fdfbff;
+        }
+        .logo-header {
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+            transition: transform 0.5s ease;
+        }
+        .logo-header:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        .image-frame {
+            border: 6px solid white;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+        .image-frame img {
+            transition: transform 0.8s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-frame:hover img {
+            transform: scale(1.08);
+        }
+        .whatsapp-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+        .whatsapp-btn:hover {
+            background-color: #20ba5a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex justify-center items-center min-h-screen">
+
+    <div class="relative max-w-6xl w-full bg-white rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden border-[8px] border-white">
+        
+        <!-- Encabezado Profesional -->
+        <div class="bg-gradient-to-br from-[#2e0b5b] via-[#4a148c] to-[#7b1fa2] p-10 md:p-16 text-center text-white relative">
+            <div class="relative z-10 flex flex-col items-center">
+                
+                <!-- Logo en el Header -->
+                <div class="logo-header mb-8">
+                    <img src="IMAGEN4.jpeg" 
+                         onerror="this.src='/BEUTIFUL/img/IMAGEN4.jpeg'" 
+                         alt="Logo Beauty Coiffure" 
+                         class="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-white/30 bg-white p-1">
+                </div>
+
+                <div class="space-y-2">
+                    <p class="uppercase tracking-[0.4em] text-[11px] mb-2 text-purple-200 font-semibold">Salón Femenino & Masculino</p>
+                    <h1 class="text-6xl md:text-8xl script-font text-white drop-shadow-lg">San Valentin</h1>
+                    <div class="h-1 w-24 bg-gradient-to-r from-transparent via-white to-transparent mx-auto my-4 opacity-50"></div>
+                    <p class="serif-font italic text-xl md:text-2xl text-purple-100 font-light tracking-wide">Especial Beauty Coiffure</p>
+                </div>
+            </div>
+            
+            <!-- Elemento Decorativo -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+                <svg class="absolute -top-10 -left-10 w-64 h-64 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <svg class="absolute -bottom-10 -right-10 w-96 h-96 text-white rotate-12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row bg-[#fcfaff]">
+            <!-- Galeria con Estilo Profesional -->
+            <div class="lg:w-5/12 p-8 flex flex-col items-center">
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <div class="image-frame rounded-2xl aspect-[3/4]">
+                        <img src="IMAGEN1.jpeg" onerror="this.src='/BEUTIFUL/img/IMAGEN1.jpeg'" alt="Servicio Peluqueria">
+                    </div>
+                    <div class="image-frame rounded-2xl aspect-[3/4]">
+                        <img src="IMAGEN2.jpeg" onerror="this.src='/BEUTIFUL/img/IMAGEN2.jpeg'" alt="Servicio Manicura">
+                    </div>
+                    <div class="image-frame rounded-3xl aspect-video col-span-2 relative mt-2">
+                        <img src="IMAGEN3.jpeg" onerror="this.src='/BEUTIFUL/img/IMAGEN3.jpeg'" alt="Experiencia Beauty" class="object-center">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute bottom-0 inset-x-0 glass-effect p-4 border-t border-white/50">
+                            <p class="text-gray-800 text-xs font-bold uppercase tracking-[0.2em] text-center italic">Calidad y Elegancia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido de Promociones -->
+            <div class="lg:w-7/12 p-8 md:p-14 flex flex-col justify-center">
+                <div class="mb-12">
+                    <h2 class="serif-font text-3xl font-bold text-gray-800 uppercase tracking-tight flex items-center">
+                        <span class="w-12 h-[2px] bg-purple-200 mr-4"></span>
+                        Promociones de Temporada
+                    </h2>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Promo 1 -->
+                    <a href="https://wa.me/595983955975?text=Hola!%20Deseo%20reservar%20la%20Promo%201:%20Look%20Total" target="_blank" class="block">
+                        <div class="promo-card p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="space-y-1">
+                                    <h3 class="font-bold text-2xl text-purple-950 tracking-tight">PROMO 1: LOOK TOTAL</h3>
+                                    <p class="text-gray-500 text-sm italic font-medium">Bano + Peinado (Brushing/Planchita) + Maquillaje</p>
+                                </div>
+                                <span class="bg-purple-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">Premium</span>
+                            </div>
+                            <div class="text-4xl font-black text-purple-700">120.000 <span class="text-base font-normal text-gray-400">Gs.</span></div>
+                        </div>
+                    </a>
+
+                    <!-- Promo 2 -->
+                    <a href="https://wa.me/595983955975?text=Hola!%20Deseo%20reservar%20la%20Promo%202:%20Manos%20y%20Pies" target="_blank" class="block">
+                        <div class="promo-card p-8">
+                            <h3 class="font-bold text-2xl text-purple-950 tracking-tight uppercase mb-1">PROMO 2: MANOS Y PIES</h3>
+                            <p class="text-gray-500 text-sm italic font-medium mb-4">Esmaltado Semi-permanente integral</p>
+                            <div class="text-4xl font-black text-purple-700">110.000 <span class="text-base font-normal text-gray-400">Gs.</span></div>
+                        </div>
+                    </a>
+
+                    <!-- Promo 3 -->
+                    <a href="https://wa.me/595983955975?text=Hola!%20Deseo%20reservar%20la%20Promo%203:%20Hidratacion" target="_blank" class="block">
+                        <div class="promo-card p-8">
+                            <h3 class="font-bold text-2xl text-purple-950 tracking-tight uppercase mb-1">PROMO 3: HIDRATACIÓN</h3>
+                            <p class="text-gray-500 text-sm italic font-medium mb-4">Tratamiento de Hidratación Profunda + Brushing</p>
+                            <div class="text-4xl font-black text-purple-700">70.000 <span class="text-base font-normal text-gray-400">Gs.</span></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Footer Accion -->
+                <div class="mt-16 pt-10 border-t border-purple-100 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="text-center md:text-left">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-[0.3em] mb-3">Reservas e Informes</p>
+                        <a href="https://wa.me/595983955975" target="_blank" class="whatsapp-btn bg-[#25D366] text-white px-8 py-4 rounded-2xl flex items-center font-bold text-lg">
+                            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.5-.3-8.5 2.4-11.2 2.5-2.6 5.5-6.5 8.3-9.7 2.8-3.3 3.8-5.7 5.6-9.4 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.3 5.7 23.7 9.1 31.7 11.7 13.3 4.2 25.4 3.6 35.1 2.2 10.8-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+                            Agendar Turno
+                        </a>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-100 px-8 py-5 rounded-3xl text-center">
+                        <p class="text-[10px] text-purple-400 uppercase font-black tracking-[0.4em] mb-2">Vigencia Promo</p>
+                        <p class="text-base font-bold text-purple-800 serif-font">10 de Feb — 15 de Feb</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
