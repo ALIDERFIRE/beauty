@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beauty Coiffure · Panel</title>
+<link rel="manifest" href="/admin.webmanifest">
+<meta name="theme-color" content="#4a1772">
+<link rel="icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<script src="/config.js"></script>
+<script src="/app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--uva:#4a1772;--morado:#6d2aa0;--lila:#b98ddb;--pastel:#efe3f8;--fondo:#f6f3f9;--tinta:#231429;--gris:#746a7c;--linea:#e4dbec;--ok:#1f9d61;--wa:#25d366;--rojo:#c0392b;--ambar:#b7791f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,system-ui,sans-serif;background:var(--fondo);color:var(--tinta);font-size:14px;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:0}
+input,select,textarea{font:inherit;width:100%;padding:10px 12px;border:1.5px solid var(--linea);border-radius:10px;background:#fff;color:var(--tinta)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--morado)}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--uva)}
+label.c{display:block;font-size:12px;font-weight:600;color:var(--gris);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+.oculto{display:none!important}
+.script{font-family:'Great Vibes',cursive}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#2e0d49,var(--uva) 55%,#8a3fc0);padding:20px}
+#login .c{background:#fff;border-radius:22px;padding:34px 28px;width:100%;max-width:360px;text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+#login .script{font-size:44px;color:var(--uva);line-height:1}
+#login p{color:var(--gris);margin:4px 0 20px}
+/* layout */
+#app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{background:linear-gradient(180deg,#34105a,var(--uva));color:#fff;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+aside .script{font-size:34px;text-align:center;line-height:1}
+aside small{display:block;text-align:center;opacity:.7;margin-bottom:22px;letter-spacing:.2em;font-size:10px;text-transform:uppercase}
+aside nav{display:flex;flex-direction:column;gap:4px;flex:1}
+aside nav button{background:none;color:#e9dcf5;text-align:left;padding:11px 14px;border-radius:10px;font-size:14px;font-weight:500;display:flex;gap:10px;align-items:center;white-space:nowrap}
+aside nav button:hover{background:rgba(255,255,255,.1)}
+aside nav button.on{background:#fff;color:var(--uva)}
+aside .pie{display:flex;flex-direction:column;gap:6px}
+aside .pie a,aside .pie button{background:rgba(255,255,255,.12);color:#fff;padding:9px;border-radius:10px;text-align:center;text-decoration:none;font-size:13px}
+main{padding:24px;min-width:0}
+h1{font-size:22px;color:var(--uva)}
+.cab{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:10px;background:var(--uva);color:#fff;font-weight:600;font-size:13.5px;text-decoration:none}
+.btn:hover{background:var(--morado)}
+.btn.g{background:#fff;color:var(--uva);border:1.5px solid var(--linea)}
+.btn.wa{background:var(--wa)}.btn.r{background:#fff;color:var(--rojo);border:1.5px solid #ecc7c2}.btn.v{background:var(--ok)}
+.btn.mini{padding:6px 10px;font-size:12px;border-radius:8px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border-radius:14px;padding:16px;border:1px solid var(--linea)}
+.kpi span{font-size:12px;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.kpi b{display:block;font-size:26px;color:var(--uva);line-height:1.2}
+.panel{background:#fff;border-radius:14px;border:1px solid var(--linea);padding:18px;margin-bottom:18px}
+.panel h2{font-size:16px;color:var(--uva);margin-bottom:12px}
+.nav-f{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nav-f input{width:auto}
+.turno{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:14px;border:1px solid var(--linea);border-radius:12px;margin-bottom:10px;border-left:5px solid var(--ambar);background:#fff}
+.turno.CONFIRMADO{border-left-color:var(--ok)}.turno.ATENDIDO{border-left-color:var(--uva)}.turno.CANCELADO,.turno.AUSENTE{border-left-color:var(--rojo);opacity:.65}
+.turno .h{text-align:center}.turno .h b{font-size:21px;color:var(--uva);display:block;line-height:1.1}.turno .h small{color:var(--gris)}
+.turno .n{font-weight:600;font-size:15px}
+.turno .s{color:var(--gris);font-size:13px}
+.acc{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.est{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700;background:#fff3d6;color:#8a6200}
+.est.CONFIRMADO{background:#e4f6ec;color:#17764a}.est.CANCELADO,.est.AUSENTE{background:#fbe4e1;color:#a5281b}.est.ATENDIDO{background:var(--pastel);color:var(--uva)}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;background:#e8f0fe;color:#2456b8;font-weight:600}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--gris);padding:8px 10px;border-bottom:2px solid var(--linea)}
+td{padding:10px;border-bottom:1px solid var(--linea);vertical-align:middle}
+.vacio{text-align:center;color:var(--gris);padding:30px 10px}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tres{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hfila{display:grid;grid-template-columns:110px 1fr 1fr 60px;gap:10px;align-items:center;padding:6px 0}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(35,20,41,.55);z-index:80;display:grid;place-items:center;padding:16px}
+.modal .m{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:480px;max-height:92vh;overflow:auto}
+.modal h2{color:var(--uva);font-size:18px;margin-bottom:6px}
+.modal .pie{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.err{color:var(--rojo);font-size:13px;min-height:18px;margin-top:8px}
+.chat{display:grid;grid-template-columns:290px minmax(0,1fr);gap:14px;height:calc(100vh - 130px);min-height:380px}
+.hilos,.conv{background:#fff;border:1px solid var(--linea);border-radius:14px;overflow:auto}
+.hilo{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;padding:12px 14px;border-bottom:1px solid var(--linea);color:var(--tinta)}
+.hilo.on{background:var(--pastel)}.hilo span{min-width:0}.hilo small{display:block;color:var(--gris);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hilo i{font-style:normal;background:#e5484d;color:#fff;border-radius:99px;padding:0 7px;font-size:11px}
+.conv{display:flex;flex-direction:column;overflow:hidden}
+.conv-h{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--linea)}.conv-h small{display:block;color:var(--gris)}
+#cVolver{display:none}
+.msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:6px;background:var(--fondo)}
+.msg{max-width:78%;padding:8px 12px;border-radius:14px 14px 14px 4px;background:#fff;border:1px solid var(--linea);align-self:flex-start;white-space:pre-wrap;word-break:break-word}
+.msg.yo{align-self:flex-end;background:var(--uva);color:#fff;border-color:var(--uva);border-radius:14px 14px 4px 14px}
+.msg small{display:block;opacity:.65;font-size:10.5px;text-align:right}
+.envio{display:flex;gap:8px;padding:10px;border-top:1px solid var(--linea)}
+@media(max-width:820px){.chat{grid-template-columns:minmax(0,1fr);height:70vh}.chat .conv{display:none}.chat.viendo .hilos{display:none}.chat.viendo .conv{display:flex}#cVolver{display:inline-flex}}
+#campN,#chatN{color:#fff;background:#e5484d;border-radius:99px;padding:1px 7px;font-size:11px;margin-left:4px}
+.aviso-i{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--linea)}.aviso-i small{color:var(--gris);display:block}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:11px 20px;border-radius:99px;z-index:99;font-size:13.5px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#velo{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lila),var(--uva));z-index:100;animation:v 1s linear infinite}
+@keyframes v{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@media(max-width:820px){#app{grid-template-columns:minmax(0,1fr)}aside{position:static;height:auto;padding:12px;min-width:0}.nav-f input{flex:1;min-width:140px}aside small{margin-bottom:10px}aside nav{flex-direction:row;overflow-x:auto;padding-bottom:6px}aside .pie{flex-direction:row;margin-top:8px}aside .pie>*{flex:1}main{padding:16px}.dos,.tres{grid-template-columns:1fr}.turno{grid-template-columns:62px 1fr}.hfila{grid-template-columns:90px 1fr 1fr 40px}}
+.sthumb{width:64px;height:48px;border-radius:8px;object-fit:cover;background:var(--pastel);display:grid;place-items:center;font-size:10px;color:var(--gris);text-align:center}
+#sPrev{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-top:8px}
+.pvac{aspect-ratio:4/3;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,var(--pastel),#dcc3f1)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.fcard{border:1px solid var(--linea);border-radius:14px;overflow:hidden;background:#fff}
+.fcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--pastel)}
+.fcard .fc{padding:10px;display:flex;flex-direction:column;gap:8px}
+label.chk{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer}
+.fsube{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;align-items:end}
+@media(max-width:820px){.fsube{grid-template-columns:1fr}}
+/* ---- encabezado, menú lateral claro y pie ---- */
+#app{grid-template-columns:230px minmax(0,1fr);grid-template-rows:auto 1fr auto}
+.top{grid-column:1/-1;position:sticky;top:0;z-index:40;background:linear-gradient(90deg,#2e0d49,var(--uva) 60%,#7a35b0);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;box-shadow:0 4px 18px rgba(35,20,41,.25)}
+.top .marca{display:flex;gap:12px;align-items:center;min-width:0}
+.top img{width:44px;height:44px;border-radius:50%;background:#fff;object-fit:cover;flex:none}
+.top .script{font-size:28px;line-height:1;display:block;white-space:nowrap}
+.top small{font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+.top-a{display:flex;gap:8px;align-items:center}
+.top-a a,.top-a button{background:rgba(255,255,255,.15);color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;text-decoration:none;white-space:nowrap}
+.top-a a:hover,.top-a button:hover{background:rgba(255,255,255,.28)}
+#aFecha{font-size:13px;opacity:.85;margin-right:6px}#aFecha::first-letter{text-transform:uppercase}
+aside{background:#fff;color:var(--tinta);border-right:1px solid var(--linea);padding:16px 12px;position:static;height:auto;display:block}
+aside nav{position:sticky;top:82px}
+aside nav button{color:var(--tinta)}aside nav button:hover{background:var(--pastel)}aside nav button.on{background:var(--uva);color:#fff}
+.bot{grid-column:1/-1;background:#24093a;color:#d9c7e8;padding:14px 20px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12.5px}
+.bot b{color:#fff}
+.chat{height:calc(100vh - 240px)}
+@media(max-width:820px){#app{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 1fr auto}.chat{height:65vh}.top{padding:8px 12px}.top .tx,#aFecha{display:none}.top .script{font-size:22px}.top img{width:36px;height:36px}.top-a a,.top-a button{padding:8px 10px}
+aside{border-right:0;border-bottom:1px solid var(--linea);padding:8px}aside nav{position:static}.bot{justify-content:center;text-align:center}}
+</style>
+</head>
+<body>
+
+<div id="login"><div class="c">
+  <div class="script" id="lNombre">Beauty Coiffure</div><p>Panel administrativo</p>
+  <input type="password" id="lClave" placeholder="Clave de acceso" autocomplete="current-password">
+  <button class="btn" id="lBtn" style="width:100%;margin-top:12px">Ingresar</button>
+  <div class="err" id="lErr"></div>
+</div></div>
+
+<div id="app" class="oculto">
+  <header class="top">
+    <div class="marca"><img id="aLogo" src="/logo.png" alt=""><div><span class="script" id="aNombre">Beauty Coiffure</span><small>Panel administrativo</small></div></div>
+    <div class="top-a"><span id="aFecha"></span><button id="campana">🔔 <span class="tx">Avisos</span> <b id="campN" class="oculto"></b></button><a id="verWeb" target="_blank" rel="noopener">🌐 <span class="tx">Ver web</span></a><button id="salir">Salir</button></div>
+  </header>
+  <aside>
+    <nav id="menu">
+      <button data-v="agenda" class="on">📅 Agenda</button>
+      <button data-v="turnos">📋 Turnos</button>
+      <button data-v="chat">💬 Chat <b id="chatN" class="oculto"></b></button>
+      <button data-v="clientes">👥 Clientes</button>
+      <button data-v="fotos">🖼️ Fotos</button>
+      <button data-v="promos">📣 Promos</button>
+      <button data-v="servicios">💇 Servicios</button>
+      <button data-v="horarios">🕐 Horarios</button>
+      <button data-v="config">⚙️ Configuración</button>
+    </nav>
+  </aside>
+  <main id="vista"></main>
+  <footer class="bot"><span>© <span id="aAnio"></span> <b id="aPieNombre">Beauty Coiffure</b> · Panel administrativo</span><span id="aPieDatos"></span></footer>
+</div>
+
+<div id="modal" class="modal oculto"><div class="m" id="modalC"></div></div>
+<div id="toast" class="oculto"></div>
+<div id="velo" class="oculto"></div>
+
+<script>
+var TOKEN = '', D = null, vista = 'agenda', dia = '', filtroT = { estado: '', q: '', cuando: 'prox' };
+var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+var DIASN = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function gs(n) { return 'Gs. ' + Number(n || 0).toLocaleString('es-PY'); }
+function fDate(f) { var p = f.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function mas(f, n) { var d = fDate(f); d.setDate(d.getDate() + n); return iso(d); }
+function fLarga(f) { var d = fDate(f); return DIASN[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+function fCorta(f) { var p = f.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+function telWa(t) { t = String(t || '').replace(/\D/g, ''); if (t.charAt(0) === '0') t = '595' + t.slice(1); else if (t.length === 9 && t.charAt(0) === '9') t = '595' + t; return t; }
+function waLink(tel, msg) { return 'https://wa.me/' + telWa(tel) + '?text=' + encodeURIComponent(msg); }
+function toast(m, ms) { var t = $('toast'); t.textContent = m; t.classList.remove('oculto'); clearTimeout(t._t); t._t = setTimeout(function () { t.classList.add('oculto'); }, ms || 2800); }
+function guardarToken(t) { TOKEN = t; try { if (t) sessionStorage.setItem('bc_tk', t); else sessionStorage.removeItem('bc_tk'); } catch (e) {} }
+
+var enCurso = 0;
+function api(fn) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  enCurso++; $('velo').classList.remove('oculto');
+  return new Promise(function (ok, mal) {
+    var fin = function () { if (--enCurso <= 0) { enCurso = 0; $('velo').classList.add('oculto'); } };
+    var r = google.script.run.withSuccessHandler(function (x) { fin(); ok(x); }).withFailureHandler(function (e) {
+      fin(); var m = String(e && e.message || e).replace(/^Error:\s*/, '');
+      if (m === 'SESION') { guardarToken(''); $('app').classList.add('oculto'); $('login').classList.remove('oculto'); m = 'La sesión venció. Ingresá de nuevo.'; $('lErr').textContent = m; }
+      mal(new Error(m));
+    });
+    r[fn].apply(r, args);
+  });
+}
+
+/* ---------- sesión ---------- */
+function entrar() {
+  var b = $('lBtn'); $('lErr').textContent = ''; b.disabled = true;
+  api('adminLogin', $('lClave').value).then(function (t) { guardarToken(t); $('lClave').value = ''; return cargar(); })
+    .catch(function (e) { $('lErr').textContent = e.message; }).then(function () { b.disabled = false; });
+}
+$('lBtn').onclick = entrar;
+$('lClave').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
+$('salir').onclick = function () { AVISOS = []; hiloAbierto = ''; sinLeer = 0; campana(); api('adminSalir', TOKEN).catch(function () {}); guardarToken(''); $('app').classList.add('oculto'); $('login').classList.remove('oculto'); };
+try { var tk = sessionStorage.getItem('bc_tk'); if (tk) { TOKEN = tk; cargar().catch(function () {}); } } catch (e) {}
+
+function cargar() {
+  return api('adminDatos', TOKEN).then(function (d) {
+    D = d; if (!dia) dia = d.hoy;
+    // La primera vez que se entra desde Vercel se guarda la dirección pública (enlaces y push la usan)
+    if (d.config.url_publica !== location.origin) { d.config.url_publica = location.origin; api('adminGuardarConfig', TOKEN, { url_publica: location.origin }).catch(function () {}); }
+    D.url = location.origin; document.title = (d.config.nombre || 'Salón') + ' · Panel'; firma = firmar(d.turnos); chatBadge();
+    if (!reloj) { reloj = setInterval(sondear, 45000); setInterval(chatTick, 8000); }
+    $('aNombre').textContent = d.config.nombre || 'Salón'; $('lNombre').textContent = d.config.nombre || 'Salón';
+    $('aPieNombre').textContent = d.config.nombre || 'Salón'; $('aAnio').textContent = d.hoy.slice(0, 4); $('aFecha').textContent = fLarga(d.hoy);
+    $('aPieDatos').textContent = [d.config.direccion, d.config.ciudad, d.config.whatsapp ? 'WhatsApp +' + d.config.whatsapp : ''].filter(Boolean).join(' · ');
+    if (/^https?:\/\//i.test(d.config.logo_url || '')) $('aLogo').src = d.config.logo_url;
+    $('verWeb').href = '/';
+    $('login').classList.add('oculto'); $('app').classList.remove('oculto'); pintar();
+  });
+}
+$('menu').onclick = function (e) {
+  var b = e.target.closest('[data-v]'); if (!b) return; vista = b.getAttribute('data-v');
+  [].forEach.call($('menu').children, function (x) { x.classList.toggle('on', x === b); }); pintar();
+};
+function pintar() { ({ agenda: vAgenda, turnos: vTurnos, chat: vChat, clientes: vClientes, fotos: vFotos, promos: vPromos, servicios: vServicios, horarios: vHorarios, config: vConfig })[vista](); }
+function turno(c) { return D.turnos.filter(function (t) { return t.codigo === c; })[0]; }
+function orden(a, b) { return (a.fecha + a.hora).localeCompare(b.fecha + b.hora); }
+
+/* ---------- avisos en vivo (turnos que llegan desde la web) ---------- */
+var AVISOS = [], firma = {}, reloj = null, sinLeer = 0, sonido = true, audio = null;
+try { sonido = localStorage.getItem('bc_son') !== '0'; } catch (e) {}
+function firmar(l) { var m = {}; l.forEach(function (t) { m[t.codigo] = t.estado + '|' + t.fecha + '|' + t.hora; }); return m; }
+function campana() { var n = $('campN'); n.textContent = sinLeer; n.classList.toggle('oculto', !sinLeer); }
+function pitido() {
+  if (!sonido) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1175].forEach(function (hz, i) {
+      var o = audio.createOscillator(), g = audio.createGain(), t0 = audio.currentTime + i * 0.18;
+      o.frequency.value = hz; o.connect(g); g.connect(audio.destination);
+      g.gain.setValueAtTime(0.25, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.3);
+      o.start(t0); o.stop(t0 + 0.32);
+    });
+  } catch (e) {}
+}
+function sondear() {
+  if (!TOKEN || !D || $('app').classList.contains('oculto')) return;
+  var tk = TOKEN;
+  google.script.run.withFailureHandler(function () {}).withSuccessHandler(function (d) {
+    if (tk !== TOKEN || !d) return;
+    var nv = [];
+    d.turnos.forEach(function (t) {
+      var f = firma[t.codigo], tipo = '';
+      if (!f) tipo = '🆕 Nuevo turno';
+      else if (t.estado === 'CANCELADO' && f.split('|')[0] !== 'CANCELADO') tipo = '❌ Canceló';
+      else if (f.split('|').slice(1).join('|') !== t.fecha + '|' + t.hora) tipo = '🔄 Reajustó';
+      if (tipo) nv.push({ tipo: tipo, cliente: t.cliente, servicio: t.servicio, fecha: t.fecha, hora: t.hora, visto: new Date().toTimeString().slice(0, 5) });
+    });
+    (d.chats || []).forEach(function (c) {
+      var p = hilo(c.hilo);
+      if (c.sinLeer > (p ? p.sinLeer : 0) && !(vista === 'chat' && hiloAbierto === c.hilo))
+        nv.push({ tipo: '💬 Mensaje', cliente: c.nombre || 'Cliente', servicio: c.ultimo, hilo: c.hilo, fecha: '', hora: '', visto: new Date().toTimeString().slice(0, 5) });
+    });
+    var cambio = JSON.stringify(firmar(d.turnos)) !== JSON.stringify(firma);
+    D = d; firma = firmar(d.turnos); chatBadge(); if (vista === 'chat') pintarHilos();
+    if (nv.length) {
+      AVISOS = nv.concat(AVISOS).slice(0, 50); sinLeer += nv.length; campana(); pitido();
+      toast(nv[0].tipo + ': ' + nv[0].cliente + ' · ' + (nv[0].hilo ? nv[0].servicio : fCorta(nv[0].fecha).slice(0, 5) + ' ' + nv[0].hora) + (nv.length > 1 ? ' (+' + (nv.length - 1) + ')' : ''), 7000);
+    }
+    if (cambio && $('modal').classList.contains('oculto') && (vista === 'agenda' || vista === 'clientes' || (vista === 'turnos' && document.activeElement.id !== 'tQ'))) pintar();
+  }).adminDatos(TOKEN);
+}
+$('campana').onclick = function () {
+  sinLeer = 0; campana();
+  abrir('<h2>Avisos</h2><p style="color:var(--gris)">Turnos y mensajes que llegan desde la web mientras el panel está abierto. Se revisa cada 45 segundos.</p>' +
+    (AVISOS.map(function (a, i) { return '<div class="aviso-i"><div><b>' + esc(a.tipo) + '</b> · ' + esc(a.cliente) + '<small>' + esc(a.servicio) + (a.hilo ? '' : ' · ' + esc(fLarga(a.fecha)) + ' ' + esc(a.hora) + ' hs') + ' · avisado ' + a.visto + '</small></div><button class="btn mini g" data-ver="' + i + '">' + (a.hilo ? 'Abrir chat' : 'Ver día') + '</button></div>'; }).join('') || '<div class="vacio">Sin avisos por ahora.</div>') +
+    '<label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="avSon"' + (sonido ? ' checked' : '') + '> Sonido al llegar un aviso</label>' +
+    '<div class="pie"><button class="btn g" data-cerrar>Cerrar</button></div>');
+  $('avSon').onchange = function () { sonido = this.checked; try { localStorage.setItem('bc_son', sonido ? '1' : '0'); } catch (e) {} if (sonido) pitido(); };
+  $('modalC').querySelectorAll('[data-ver]').forEach(function (b) {
+    b.onclick = function () {
+      var a = AVISOS[+b.getAttribute('data-ver')]; cerrar();
+      if (a.hilo) { hiloAbierto = a.hilo; irA('chat'); } else { dia = a.fecha; irA('agenda'); }
+    };
+  });
+};
+
+/* ---------- CHAT con clientes ---------- */
+var hiloAbierto = '', convMarca = '';
+function hilo(h) { return ((D && D.chats) || []).filter(function (c) { return c.hilo === h; })[0]; }
+function chatBadge() { var n = ((D && D.chats) || []).reduce(function (s, c) { return s + c.sinLeer; }, 0), b = $('chatN'); b.textContent = n; b.classList.toggle('oculto', !n); }
+function irA(v) { vista = v; [].forEach.call($('menu').children, function (x) { x.classList.toggle('on', x.getAttribute('data-v') === v); }); pintar(); }
+function hCorta(s) { s = String(s || ''); return s.slice(0, 10) === D.hoy ? s.slice(11) : s.slice(8, 10) + '/' + s.slice(5, 7); }
+function vChat() {
+  $('vista').innerHTML = '<div class="cab"><h1>Chat</h1><span style="color:var(--gris)">Mensajes de clientes desde la web</span></div>' +
+    '<div class="chat" id="cChat"><div class="hilos" id="cHilos"></div><div class="conv" id="cConv"></div></div>';
+  if (hiloAbierto && hilo(hiloAbierto)) abrirHilo(hiloAbierto); else cerrarHilo();
+}
+function cerrarHilo() {
+  hiloAbierto = ''; $('cChat').classList.remove('viendo'); pintarHilos();
+  $('cConv').innerHTML = '<div class="vacio" style="margin:auto">Elegí una conversación para responder.</div>';
+}
+function pintarHilos() {
+  var el = $('cHilos'); if (!el) return;
+  el.innerHTML = (D.chats || []).map(function (c) {
+    return '<button class="hilo' + (c.hilo === hiloAbierto ? ' on' : '') + '" data-h="' + esc(c.hilo) + '"><span><b>' + esc(c.nombre || 'Cliente') + '</b>' + (c.sinLeer ? ' <i>' + c.sinLeer + '</i>' : '') +
+      '<small>' + (c.de === 'SALON' ? 'Vos: ' : '') + esc(c.ultimo) + '</small></span><small>' + esc(hCorta(c.fecha)) + '</small></button>';
+  }).join('') || '<div class="vacio">Todavía no hay mensajes.</div>';
+  el.onclick = function (e) { var b = e.target.closest('[data-h]'); if (b) abrirHilo(b.getAttribute('data-h')); };
+}
+function abrirHilo(h) {
+  var c = hilo(h); if (!c) return;
+  hiloAbierto = h; convMarca = ''; $('cChat').classList.add('viendo'); pintarHilos();
+  var nom = c.nombre || 'Cliente';
+  $('cConv').innerHTML = '<div class="conv-h"><button class="btn mini g" id="cVolver">‹</button><div style="flex:1;min-width:0"><b>' + esc(nom) + '</b><small>' + (c.telefono ? '📱 ' + esc(c.telefono) : 'Sin teléfono') + '</small></div>' +
+    (c.telefono ? '<a class="btn mini wa" target="_blank" rel="noopener" href="' + esc(waLink(c.telefono, 'Hola ' + nom.split(' ')[0] + ' 👋 Te escribimos de ' + (D.config.nombre || '') + '.')) + '">WhatsApp</a>' : '') +
+    '<button class="btn mini g" id="cTurno">+ Turno</button></div><div class="msgs" id="cMsgs"><div class="vacio">Cargando…</div></div>' +
+    '<div class="envio"><input id="cTxt" maxlength="500" placeholder="Escribí tu respuesta…" autocomplete="off"><button class="btn" id="cEnv">Enviar</button></div>';
+  $('cVolver').onclick = cerrarHilo;
+  $('cTurno').onclick = function () { mTurno(null, false, { cliente: c.nombre, telefono: c.telefono }); };
+  $('cEnv').onclick = enviarChat;
+  $('cTxt').onkeydown = function (e) { if (e.key === 'Enter') enviarChat(); };
+  chatTick(true);
+}
+function pintarMsgs(r) {
+  convMarca = r.marca; var el = $('cMsgs'); if (!el) return;
+  el.innerHTML = r.mensajes.map(function (m) { return '<div class="msg' + (m.de === 'SALON' ? ' yo' : '') + '">' + esc(m.texto) + '<small>' + esc(hCorta(m.fecha)) + '</small></div>'; }).join('');
+  el.scrollTop = el.scrollHeight;
+  var c = hilo(hiloAbierto), u = r.mensajes[r.mensajes.length - 1];
+  if (c) { c.sinLeer = 0; if (u) { c.ultimo = u.texto.slice(0, 80); c.de = u.de; c.fecha = u.fecha; } chatBadge(); pintarHilos(); }
+}
+function chatTick(forzar) {
+  if (!TOKEN || vista !== 'chat' || !hiloAbierto || (document.hidden && forzar !== true)) return;
+  var h = hiloAbierto;
+  google.script.run.withFailureHandler(function () {}).withSuccessHandler(function (r) {
+    if (r && !r.igual && h === hiloAbierto && vista === 'chat') pintarMsgs(r);
+  }).adminChatLeer(TOKEN, h, forzar === true ? '' : convMarca);
+}
+function enviarChat() {
+  var i = $('cTxt'), t = i.value.trim(), b = $('cEnv'); if (!t) return;
+  b.disabled = true;
+  api('adminChatEnviar', TOKEN, hiloAbierto, t).then(function (r) { i.value = ''; pintarMsgs(r); })
+    .catch(function (e) { toast(e.message); }).then(function () { b.disabled = false; i.focus(); });
+}
+
+/* ---------- mensajes de WhatsApp ---------- */
+function msj(tipo, t) {
+  var n = D.config.nombre || 'el salón', link = D.url ? '\n\nPara reajustar o cancelar: ' + D.url + '?t=' + t.codigo : '';
+  var base = '💇 ' + t.servicio + '\n📅 ' + fLarga(t.fecha) + '\n🕐 ' + t.hora + ' hs\n🔖 Código: ' + t.codigo;
+  var nom = String(t.cliente).split(' ')[0];
+  if (tipo === 'confirmar') return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.\nTu turno está CONFIRMADO ✅\n\n' + base + link + '\n\n¡Te esperamos! 💜';
+  if (tipo === 'recordar') return 'Hola ' + nom + ' 👋 Te recordamos tu turno en ' + n + ':\n\n' + base + link + '\n\n¡Te esperamos! 💜';
+  if (tipo === 'reajuste') return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.\nTu turno fue REAJUSTADO 🔄 Quedó así:\n\n' + base + link + '\n\nSi no te queda bien avisanos. ¡Gracias! 💜';
+  if (tipo === 'cancelar') return 'Hola ' + nom + ', te escribimos de ' + n + '. Tu turno de ' + t.servicio + ' del ' + fLarga(t.fecha) + ' a las ' + t.hora + ' hs fue cancelado.' + (D.url ? ' Podés agendar otro acá: ' + D.url : '');
+  return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.';
+}
+function abrirWa(tipo, t) { if (!t.telefono) return toast('Este turno no tiene teléfono.'); window.open(waLink(t.telefono, msj(tipo, t)), '_blank'); }
+
+/* ---------- tarjeta de turno ---------- */
+function tarjeta(t, conFecha) {
+  var a = '', vivo = t.estado === 'PENDIENTE' || t.estado === 'CONFIRMADO';
+  if (t.estado === 'PENDIENTE') a += '<button class="btn mini v" data-a="confirmar" data-c="' + t.codigo + '">✓ Confirmar + WhatsApp</button>';
+  if (t.estado === 'CONFIRMADO') a += '<button class="btn mini wa" data-a="recordar" data-c="' + t.codigo + '">💬 Recordar</button>';
+  if (vivo) a += '<button class="btn mini g" data-a="reajustar" data-c="' + t.codigo + '">🔄 Reajustar</button>' +
+    '<button class="btn mini g" data-a="ATENDIDO" data-c="' + t.codigo + '">Atendido</button>' +
+    '<button class="btn mini g" data-a="AUSENTE" data-c="' + t.codigo + '">No vino</button>' +
+    '<button class="btn mini r" data-a="CANCELADO" data-c="' + t.codigo + '">Cancelar</button>';
+  else a += '<button class="btn mini g" data-a="PENDIENTE" data-c="' + t.codigo + '">Reactivar</button>';
+  a += '<button class="btn mini g" data-a="editar" data-c="' + t.codigo + '">✏️ Editar</button>';
+  if (t.telefono) a += '<button class="btn mini g" data-a="chat" data-c="' + t.codigo + '">Chat</button>';
+  return '<div class="turno ' + esc(t.estado) + '"><div class="h"><b>' + esc(t.hora) + '</b><small>' + (conFecha ? fCorta(t.fecha).slice(0, 5) + '<br>' : '') + t.duracion + ' min</small></div><div>' +
+    '<div class="n">' + esc(t.cliente) + ' <span class="est ' + esc(t.estado) + '">' + esc(t.estado) + '</span> ' + (t.historial ? '<span class="tag" title="' + esc(t.historial) + '">reajustado</span> ' : '') + (t.origen === 'WEB' ? '<span class="tag">web</span>' : '') + '</div>' +
+    '<div class="s">' + esc(t.servicio) + ' · ' + gs(t.precio) + (t.telefono ? ' · 📱 ' + esc(t.telefono) : '') + ' · <b>' + esc(t.codigo) + '</b></div>' +
+    (t.notas ? '<div class="s">📝 ' + esc(t.notas) + '</div>' : '') + '<div class="acc">' + a + '</div></div></div>';
+}
+$('vista').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-a]'); if (!b) return;
+  var a = b.getAttribute('data-a'), t = turno(b.getAttribute('data-c')); if (!t) return;
+  if (a === 'editar') return mTurno(t, false);
+  if (a === 'reajustar') return mTurno(t, true);
+  if (a === 'recordar') return abrirWa('recordar', t);
+  if (a === 'chat') return abrirWa('', t);
+  if (a === 'confirmar') { abrirWa('confirmar', t); return estado(t, 'CONFIRMADO'); }
+  if (a === 'CANCELADO') { if (!confirm('¿Cancelar el turno de ' + t.cliente + '?')) return; var avisar = t.telefono && confirm('¿Avisar al cliente por WhatsApp?'); if (avisar) abrirWa('cancelar', t); }
+  estado(t, a);
+});
+function estado(t, e) { api('adminEstado', TOKEN, t.codigo, e).then(function () { toast('Turno: ' + e.toLowerCase()); return cargar(); }).catch(function (er) { toast(er.message); }); }
+
+/* ---------- AGENDA ---------- */
+function vAgenda() {
+  var l = D.turnos.filter(function (t) { return t.fecha === dia; }).sort(orden);
+  var act = l.filter(function (t) { return t.estado !== 'CANCELADO' && t.estado !== 'AUSENTE'; });
+  var pend = D.turnos.filter(function (t) { return t.estado === 'PENDIENTE' && t.fecha >= D.hoy; }).sort(orden);
+  var ing = l.filter(function (t) { return t.estado === 'ATENDIDO'; }).reduce(function (s, t) { return s + t.precio; }, 0);
+  var prev = act.reduce(function (s, t) { return s + t.precio; }, 0);
+  var h = '<div class="cab"><div><h1>Agenda</h1><div style="color:var(--gris);text-transform:capitalize">' + esc(fLarga(dia)) + (dia === D.hoy ? ' · hoy' : '') + '</div></div>' +
+    '<div class="nav-f"><button class="btn g" id="aAnt">‹</button><input type="date" id="aDia" value="' + dia + '"><button class="btn g" id="aSig">›</button><button class="btn g" id="aHoy">Hoy</button><button class="btn" id="aNuevo">+ Nuevo turno</button></div></div>' +
+    '<div class="kpis"><div class="kpi"><span>Turnos del día</span><b>' + act.length + '</b></div><div class="kpi"><span>Por confirmar (todos)</span><b>' + pend.length + '</b></div>' +
+    '<div class="kpi"><span>Cobrado (atendidos)</span><b style="font-size:20px">' + gs(ing) + '</b></div><div class="kpi"><span>Previsto del día</span><b style="font-size:20px">' + gs(prev) + '</b></div></div>';
+  var bl = D.bloqueos.filter(function (b) { return b.fecha === dia; })[0];
+  if (bl) h += '<div class="panel" style="border-color:#ecc7c2;color:var(--rojo)">🚫 Día bloqueado' + (bl.motivo ? ': ' + esc(bl.motivo) : '') + '</div>';
+  h += '<div class="panel"><h2>Turnos del día</h2>' + (l.map(function (t) { return tarjeta(t); }).join('') || '<div class="vacio">No hay turnos para este día.</div>') + '</div>';
+  var otros = pend.filter(function (t) { return t.fecha !== dia; });
+  if (otros.length) h += '<div class="panel"><h2>Pendientes de confirmar en otros días</h2>' + otros.slice(0, 20).map(function (t) { return tarjeta(t, true); }).join('') + '</div>';
+  $('vista').innerHTML = h;
+  $('aAnt').onclick = function () { dia = mas(dia, -1); vAgenda(); };
+  $('aSig').onclick = function () { dia = mas(dia, 1); vAgenda(); };
+  $('aHoy').onclick = function () { dia = D.hoy; vAgenda(); };
+  $('aDia').onchange = function () { if (this.value) { dia = this.value; vAgenda(); } };
+  $('aNuevo').onclick = function () { mTurno(null, false); };
+}
+
+/* ---------- TURNOS (listado) ---------- */
+function vTurnos() {
+  $('vista').innerHTML = '<div class="cab"><h1>Turnos</h1><button class="btn" id="tNuevo">+ Nuevo turno</button></div>' +
+    '<div class="panel"><div class="tres"><input id="tQ" placeholder="Buscar cliente, teléfono o código" value="' + esc(filtroT.q) + '">' +
+    '<select id="tE"><option value="">Todos los estados</option>' + D.estados.map(function (e) { return '<option' + (e === filtroT.estado ? ' selected' : '') + '>' + e + '</option>'; }).join('') + '</select>' +
+    '<select id="tC"><option value="prox"' + (filtroT.cuando === 'prox' ? ' selected' : '') + '>Desde hoy</option><option value="ant"' + (filtroT.cuando === 'ant' ? ' selected' : '') + '>Anteriores</option><option value="todos"' + (filtroT.cuando === 'todos' ? ' selected' : '') + '>Todos</option></select></div></div>' +
+    '<div id="tLista"></div>';
+  $('tNuevo').onclick = function () { mTurno(null, false); };
+  $('tQ').oninput = function () { filtroT.q = this.value; lista(); };
+  $('tE').onchange = function () { filtroT.estado = this.value; lista(); };
+  $('tC').onchange = function () { filtroT.cuando = this.value; lista(); };
+  function lista() {
+    var q = filtroT.q.toLowerCase().trim();
+    var l = D.turnos.filter(function (t) {
+      if (filtroT.estado && t.estado !== filtroT.estado) return false;
+      if (filtroT.cuando === 'prox' && t.fecha < D.hoy) return false;
+      if (filtroT.cuando === 'ant' && t.fecha >= D.hoy) return false;
+      return !q || (t.cliente + ' ' + t.telefono + ' ' + t.codigo + ' ' + t.servicio).toLowerCase().indexOf(q) >= 0;
+    }).sort(orden);
+    if (filtroT.cuando !== 'prox') l.reverse();
+    $('tLista').innerHTML = l.slice(0, 150).map(function (t) { return tarjeta(t, true); }).join('') || '<div class="panel vacio">Sin resultados.</div>';
+  }
+  lista();
+}
+
+/* ---------- CLIENTES ---------- */
+function vClientes() {
+  var m = {};
+  D.turnos.forEach(function (t) {
+    var k = telWa(t.telefono).slice(-8) || t.cliente.toLowerCase();
+    var c = m[k] = m[k] || { nombre: t.cliente, tel: t.telefono, n: 0, at: 0, total: 0, ult: '' };
+    c.n++; if (t.estado === 'ATENDIDO') { c.at++; c.total += t.precio; }
+    if (t.fecha >= c.ult) { c.ult = t.fecha; c.nombre = t.cliente; }
+  });
+  var l = Object.keys(m).map(function (k) { return m[k]; }).sort(function (a, b) { return b.ult.localeCompare(a.ult); });
+  $('vista').innerHTML = '<div class="cab"><h1>Clientes</h1><span style="color:var(--gris)">' + l.length + ' registrados</span></div><div class="panel tw">' +
+    (l.length ? '<table><tr><th>Cliente</th><th>Teléfono</th><th>Turnos</th><th>Atendidos</th><th>Total</th><th>Último</th><th></th></tr>' + l.map(function (c) {
+      return '<tr><td><b>' + esc(c.nombre) + '</b></td><td>' + esc(c.tel) + '</td><td>' + c.n + '</td><td>' + c.at + '</td><td>' + gs(c.total) + '</td><td>' + (c.ult ? fCorta(c.ult) : '') + '</td><td>' +
+        (c.tel ? '<a class="btn mini wa" target="_blank" rel="noopener" href="' + esc(waLink(c.tel, 'Hola ' + c.nombre.split(' ')[0] + ' 👋 Te escribimos de ' + (D.config.nombre || '') + '.')) + '">WhatsApp</a>' : '') + '</td></tr>';
+    }).join('') + '</table>' : '<div class="vacio">Todavía no hay clientes.</div>') + '</div>';
+}
+
+/* ---------- FOTOS: carrusel de portada y galería "Nuestro trabajo" ---------- */
+// Achica la foto en el navegador (máx. 1600 px, JPG) antes de enviarla: sube rápido aunque venga de la cámara
+function reducir(file) {
+  return new Promise(function (ok, mal) {
+    var img = new Image(), u = URL.createObjectURL(file);
+    img.onload = function () {
+      var k = Math.min(1, 1600 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+      ok(c.toDataURL('image/jpeg', 0.85));
+    };
+    img.onerror = function () { URL.revokeObjectURL(u); mal(new Error('No se pudo leer "' + file.name + '". Usá JPG o PNG.')); };
+    img.src = u;
+  });
+}
+function vFotos() {
+  $('vista').innerHTML = '<div class="cab"><h1>Fotos</h1><span style="color:var(--gris)">Lo que se ve en la web del cliente</span></div>' +
+    '<div class="panel"><h2>Subir fotos</h2><div class="fsube"><div><label class="c">Elegí una o varias fotos</label><input type="file" id="fArch" accept="image/*" multiple></div>' +
+    '<div><label class="c">Título (opcional)</label><input id="fTit" maxlength="50" placeholder="Ej.: Balayage, Corte y barba…"></div></div>' +
+    '<div style="display:flex;gap:18px;flex-wrap:wrap;margin:14px 0"><label class="chk"><input type="checkbox" id="fPort"> Carrusel de portada</label><label class="chk"><input type="checkbox" id="fTrab" checked> Galería "Nuestro trabajo"</label></div>' +
+    '<div class="acc"><button class="btn" id="fSubir">⬆ Subir</button><span id="fEst" style="align-self:center;color:var(--gris)"></span></div>' +
+    '<p style="color:var(--gris);font-size:12.5px;margin-top:12px">Para la portada quedan mejor las fotos horizontales y nítidas. Mientras no haya fotos subidas en un lugar, la web muestra las de ejemplo.</p></div>' +
+    '<div class="panel"><h2>Fotos cargadas</h2><div class="fgrid" id="fGrid"></div></div>';
+  pintarFotos();
+  $('fSubir').onclick = function () {
+    var fs = [].slice.call($('fArch').files), b = this, est = $('fEst'), i = 0, ok = 0;
+    if (!fs.length) return toast('Elegí una o más fotos.');
+    if (!$('fPort').checked && !$('fTrab').checked) return toast('Marcá dónde se van a mostrar.');
+    var op = { titulo: $('fTit').value, portada: $('fPort').checked, trabajos: $('fTrab').checked };
+    b.disabled = true;
+    (function sig() {
+      if (i >= fs.length) { b.disabled = false; est.textContent = ''; $('fArch').value = ''; $('fTit').value = ''; if (ok) toast(ok + ' foto(s) subida(s) ✓', 4000); return; }
+      est.textContent = 'Subiendo ' + (i + 1) + ' de ' + fs.length + '…';
+      reducir(fs[i]).then(function (data) { return api('adminSubirFoto', TOKEN, { data: data, titulo: op.titulo, portada: op.portada, trabajos: op.trabajos }); })
+        .then(function (l) { ok++; D.fotos = l; pintarFotos(); }, function (e) { toast(e.message, 7000); })
+        .then(function () { i++; sig(); });
+    })();
+  };
+}
+function pintarFotos() {
+  var el = $('fGrid'); if (!el) return; var l = D.fotos || [];
+  el.innerHTML = l.map(function (f, i) {
+    return '<div class="fcard" data-id="' + esc(f.id) + '"><img src="' + esc(f.url) + '" data-alt="' + esc(f.alt) + '" alt="" loading="lazy" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.dataset.alt=&quot;&quot;}"><div class="fc">' +
+      '<input class="ft" value="' + esc(f.titulo) + '" maxlength="50" placeholder="Título (opcional)">' +
+      '<label class="chk"><input type="checkbox" class="fp"' + (f.portada ? ' checked' : '') + '> Carrusel de portada</label>' +
+      '<label class="chk"><input type="checkbox" class="fw"' + (f.trabajos ? ' checked' : '') + '> Nuestro trabajo</label>' +
+      '<div class="acc" style="margin:0"><button class="btn mini g" data-m="-1"' + (i === 0 ? ' disabled' : '') + ' title="Mostrar antes">◀</button><button class="btn mini g" data-m="1"' + (i === l.length - 1 ? ' disabled' : '') + ' title="Mostrar después">▶</button>' +
+      '<button class="btn mini r" data-b="1" style="margin-left:auto">Eliminar</button></div></div></div>';
+  }).join('') || '<div class="vacio" style="grid-column:1/-1">Todavía no subiste fotos. La web está mostrando las de ejemplo.</div>';
+  el.onchange = function (e) {
+    var c = e.target.closest('.fcard'); if (!c) return;
+    api('adminFotoGuardar', TOKEN, { id: c.getAttribute('data-id'), titulo: c.querySelector('.ft').value, portada: c.querySelector('.fp').checked, trabajos: c.querySelector('.fw').checked })
+      .then(function (l) { D.fotos = l; toast('Guardado ✓'); }).catch(function (er) { toast(er.message, 6000); pintarFotos(); });
+  };
+  el.onclick = function (e) {
+    var b = e.target.closest('button'), c = e.target.closest('.fcard'); if (!b || !c) return;
+    var id = c.getAttribute('data-id'), p;
+    if (b.hasAttribute('data-m')) p = api('adminFotoMover', TOKEN, id, +b.getAttribute('data-m'));
+    else if (b.hasAttribute('data-b')) { if (!confirm('¿Eliminar esta foto de la web?')) return; p = api('adminFotoBorrar', TOKEN, id); }
+    else return;
+    p.then(function (l) { D.fotos = l; pintarFotos(); }).catch(function (er) { toast(er.message, 6000); });
+  };
+}
+
+/* ---------- PROMOCIONES ---------- */
+function contactos() {   // clientes con teléfono, sin repetir (de los turnos y del chat)
+  var m = {}, l = [];
+  (D.turnos || []).map(function (t) { return { n: t.cliente, t: t.telefono }; }).concat((D.chats || []).map(function (c) { return { n: c.nombre, t: c.telefono }; }))
+    .forEach(function (c) { var k = telWa(c.t).slice(-8); if (k.length < 8 || m[k]) return; m[k] = 1; l.push(c); });
+  return l.sort(function (x, y) { return String(x.n).localeCompare(String(y.n)); });
+}
+function textoPromo(p) {
+  return '🎉 ' + p.titulo + (p.texto ? '\n' + p.texto : '') + (p.hasta ? '\n📅 Válido hasta el ' + fCorta(p.hasta) : '') + '\n\nReservá tu turno acá: ' + D.url + '\n' + (D.config.nombre || '');
+}
+function vPromos() {
+  var l = D.promos || [];
+  $('vista').innerHTML = '<div class="cab"><h1>Promociones</h1><button class="btn" id="pNueva">+ Nueva promoción</button></div>' +
+    '<div class="panel"><b>' + (D.promoSubs || 0) + '</b> dispositivo(s) de clientes aceptaron recibir promociones por notificación. Los clientes lo activan desde la web con el botón "Avisarme de nuevas promociones". Por WhatsApp se puede difundir a todos los clientes con teléfono.</div>' +
+    '<div class="fgrid">' + (l.map(function (p) {
+      var est = !p.activo ? '<span class="est AUSENTE">PAUSADA</span>' : p.vigente ? '<span class="est CONFIRMADO">ACTIVA</span>' : '<span class="est CANCELADO">VENCIDA</span>';
+      return '<div class="fcard" data-id="' + esc(p.id) + '">' + (p.imagen ? '<img src="' + esc(p.imagen) + '" alt="" loading="lazy">' : '<div class="pvac">🎉</div>') + '<div class="fc"><div><b>' + esc(p.titulo) + '</b> ' + est + '</div>' +
+        '<small style="color:var(--gris)">' + esc(p.texto) + '</small><small style="color:var(--gris)">' + (p.hasta ? 'Hasta el ' + fCorta(p.hasta) + ' · ' : 'Sin vencimiento · ') + p.enviados + ' notificación(es) enviadas</small>' +
+        '<div class="acc" style="margin:0"><button class="btn mini v" data-p="push">🔔 Notificar</button><button class="btn mini wa" data-p="wa">WhatsApp</button><button class="btn mini g" data-p="ed">Editar</button><button class="btn mini r" data-p="del">Eliminar</button></div></div></div>';
+    }).join('') || '<div class="vacio" style="grid-column:1/-1">Todavía no hay promociones. Creá la primera con "Nueva promoción".</div>') + '</div>';
+  $('pNueva').onclick = function () { mPromo(null); };
+  $('vista').querySelector('.fgrid').onclick = function (e) {
+    var b = e.target.closest('[data-p]'), c = e.target.closest('.fcard'); if (!b || !c) return;
+    var p = (D.promos || []).filter(function (x) { return x.id === c.getAttribute('data-id'); })[0], a = b.getAttribute('data-p'); if (!p) return;
+    if (a === 'ed') return mPromo(p);
+    if (a === 'wa') return mDifundir(p);
+    if (a === 'push') return notificarPromo(p.id);
+    if (a === 'del' && confirm('¿Eliminar la promoción "' + p.titulo + '"?')) api('adminPromoBorrar', TOKEN, p.id).then(function (l) { D.promos = l; vPromos(); }).catch(function (er) { toast(er.message, 6000); });
+  };
+}
+function notificarPromo(id) {
+  return api('adminPromoNotificar', TOKEN, id).then(function (r) {
+    D.promos = r.promos; if (vista === 'promos') vPromos();
+    toast(r.enviadas ? 'Notificación enviada a ' + r.enviadas + ' dispositivo(s) ✓' : 'Todavía no hay clientes suscritos a promociones. Difundila por WhatsApp.', 6000);
+  }).catch(function (e) { toast(e.message, 8000); });
+}
+function mPromo(p) {
+  var n = !p; p = p || { id: '', titulo: '', texto: '', imagen: '', hasta: '', activo: true };
+  abrir('<h2>' + (n ? 'Nueva promoción' : 'Editar promoción') + '</h2>' +
+    '<label class="c">Título</label><input id="pT" value="' + esc(p.titulo) + '" maxlength="60" placeholder="Ej.: 2x1 en manicura los martes">' +
+    '<label class="c">Descripción</label><textarea id="pX" rows="3" maxlength="300" placeholder="Condiciones, precio promocional, días…">' + esc(p.texto) + '</textarea>' +
+    '<label class="c">Válida hasta (opcional)</label><input type="date" id="pH" value="' + esc(p.hasta) + '" min="' + D.hoy + '">' +
+    '<label class="c">Imagen (opcional)</label><input type="hidden" id="pI" value="' + esc(p.imagen) + '"><img id="sPrev" alt="" class="' + (p.imagen ? '' : 'oculto') + '" src="' + esc(p.imagen) + '">' +
+    '<input type="file" id="pArch" accept="image/*" class="oculto"><div class="acc"><button class="btn mini g" id="pSubir">📷 Subir imagen</button><button class="btn mini r' + (p.imagen ? '' : ' oculto') + '" id="pQuitar">Quitar imagen</button></div>' +
+    '<label class="chk" style="margin-top:14px"><input type="checkbox" id="pA"' + (p.activo ? ' checked' : '') + '> Mostrar en la web</label>' +
+    '<label class="chk" style="margin-top:8px"><input type="checkbox" id="pN"' + (n ? ' checked' : '') + '> Enviar notificación a los clientes al guardar</label>' +
+    '<div class="err" id="mErr"></div><div class="pie"><button class="btn g" data-cerrar>Cerrar</button><button class="btn" id="pOk">Guardar</button></div>');
+  $('pSubir').onclick = function () { $('pArch').click(); };
+  $('pQuitar').onclick = function () { $('pI').value = ''; $('sPrev').classList.add('oculto'); this.classList.add('oculto'); };
+  $('pArch').onchange = function () {
+    var f = this.files[0], b = $('pSubir'); if (!f) return;
+    b.disabled = true; b.textContent = 'Subiendo…';
+    reducir(f).then(function (data) { return api('adminSubirImagen', TOKEN, data); })
+      .then(function (u) { $('pI').value = u; $('sPrev').src = u; $('sPrev').classList.remove('oculto'); $('pQuitar').classList.remove('oculto'); })
+      .catch(function (e) { $('mErr').textContent = e.message; }).then(function () { b.disabled = false; b.textContent = '📷 Subir imagen'; });
+  };
+  $('pOk').onclick = function () {
+    var b = this, avisar = $('pN').checked && $('pA').checked; b.disabled = true;
+    api('adminPromoGuardar', TOKEN, { id: p.id, titulo: $('pT').value, texto: $('pX').value, hasta: $('pH').value, imagen: $('pI').value, activo: $('pA').checked })
+      .then(function (r) { D.promos = r.promos; cerrar(); vPromos(); if (avisar) return notificarPromo(r.id); toast('Promoción guardada ✓'); })
+      .catch(function (e) { if ($('mErr')) { $('mErr').textContent = e.message; b.disabled = false; } else toast(e.message, 6000); });
+  };
+}
+function mDifundir(p) {
+  var l = contactos(), msg = textoPromo(p);
+  abrir('<h2>Difundir por WhatsApp</h2><p style="color:var(--gris)">Tocá "Enviar" en cada cliente: se abre WhatsApp con la promoción ya escrita. ' + l.length + ' cliente(s) con teléfono.</p>' +
+    '<div style="max-height:52vh;overflow:auto;margin-top:10px">' + (l.slice(0, 400).map(function (c) {
+      return '<div class="aviso-i"><div><b>' + esc(c.n || 'Cliente') + '</b><small>' + esc(c.t) + '</small></div><a class="btn mini wa" target="_blank" rel="noopener" href="' + esc(waLink(c.t, 'Hola ' + String(c.n || '').split(' ')[0] + ' 👋\n' + msg)) + '">Enviar</a></div>';
+    }).join('') || '<div class="vacio">Todavía no hay clientes con teléfono registrado.</div>') + '</div>' +
+    '<div class="pie"><button class="btn g" data-cerrar>Cerrar</button></div>');
+  $('modalC').onclick = function (e) { var b = e.target.closest('a.wa'); if (b) { b.textContent = '✓ Abierto'; b.className = 'btn mini g'; } };
+}
+
+/* ---------- SERVICIOS ---------- */
+function vServicios() {
+  $('vista').innerHTML = '<div class="cab"><h1>Servicios</h1><button class="btn" id="sNuevo">+ Nuevo servicio</button></div><div class="panel tw"><table><tr><th>Foto</th><th>Servicio</th><th>Categoría</th><th>Duración</th><th>Precio</th><th>Visible</th><th></th></tr>' +
+    D.servicios.map(function (s) {
+      return '<tr><td>' + (/^https?:\/\//i.test(s.imagen) ? '<img class="sthumb" src="' + esc(s.imagen) + '" alt="" loading="lazy">' : '<span class="sthumb">sin foto</span>') + '</td><td><b>' + esc(s.nombre) + '</b><br><small style="color:var(--gris)">' + esc(s.descripcion) + '</small></td><td>' + esc(s.categoria) + '</td><td>' + s.duracion + ' min</td><td>' + gs(s.precio) + '</td><td>' + (s.activo ? '✅' : '—') + '</td><td><button class="btn mini g" data-s="' + esc(s.id) + '">Editar</button></td></tr>';
+    }).join('') + '</table></div>';
+  $('sNuevo').onclick = function () { mServicio(null); };
+  $('vista').querySelectorAll('[data-s]').forEach(function (b) { b.onclick = function () { mServicio(D.servicios.filter(function (s) { return s.id === b.getAttribute('data-s'); })[0]); }; });
+}
+function mServicio(s) {
+  s = s || { id: '', categoria: '', nombre: '', descripcion: '', duracion: 30, precio: 0, imagen: '', activo: true };
+  var cats = []; D.servicios.forEach(function (x) { if (cats.indexOf(x.categoria) < 0) cats.push(x.categoria); });
+  abrir('<h2>' + (s.id ? 'Editar servicio' : 'Nuevo servicio') + '</h2>' +
+    '<label class="c">Nombre</label><input id="sN" value="' + esc(s.nombre) + '" maxlength="60">' +
+    '<label class="c">Categoría</label><input id="sC" list="sCats" value="' + esc(s.categoria) + '" maxlength="30"><datalist id="sCats">' + cats.map(function (c) { return '<option value="' + esc(c) + '">'; }).join('') + '</datalist>' +
+    '<label class="c">Descripción</label><textarea id="sD" rows="2" maxlength="200">' + esc(s.descripcion) + '</textarea>' +
+    '<div class="dos"><div><label class="c">Duración (min)</label><input id="sM" type="number" min="5" step="5" value="' + s.duracion + '"></div><div><label class="c">Precio (Gs.)</label><input id="sP" type="number" min="0" step="1000" value="' + s.precio + '"></div></div>' +
+    '<label class="c">Foto del servicio (opcional)</label><input id="sI" value="' + esc(s.imagen) + '" placeholder="Enlace de la foto, o subila con el botón">' +
+    '<img id="sPrev" alt="" class="' + (/^https?:\/\//i.test(s.imagen) ? '' : 'oculto') + '" src="' + esc(/^https?:\/\//i.test(s.imagen) ? s.imagen : '') + '">' +
+    '<input type="file" id="sArch" accept="image/*" class="oculto"><button class="btn mini g" id="sSubir" style="margin-top:8px">📷 Subir foto desde este dispositivo</button>' +
+    '<label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="sA"' + (s.activo ? ' checked' : '') + '> Visible en la web</label>' +
+    '<div class="err" id="mErr"></div><div class="pie"><button class="btn g" data-cerrar>Cerrar</button><button class="btn" id="sOk">Guardar</button></div>');
+  $('sSubir').onclick = function () { $('sArch').click(); };
+  $('sArch').onchange = function () {
+    var f = this.files[0], b = $('sSubir'); if (!f) return;
+    b.disabled = true; b.textContent = 'Subiendo…';
+    reducir(f).then(function (data) { return api('adminSubirImagen', TOKEN, data); })
+      .then(function (u) { $('sI').value = u; $('sPrev').src = u; $('sPrev').classList.remove('oculto'); toast('Foto subida. Tocá Guardar.'); }).catch(function (e) { $('mErr').textContent = e.message; })
+      .then(function () { b.disabled = false; b.textContent = '📷 Subir foto desde este dispositivo'; });
+  };
+  $('sOk').onclick = function () {
+    var b = this; b.disabled = true;
+    api('adminGuardarServicio', TOKEN, { id: s.id, nombre: $('sN').value, categoria: $('sC').value, descripcion: $('sD').value, duracion: $('sM').value, precio: $('sP').value, imagen: $('sI').value, activo: $('sA').checked })
+      .then(function () { cerrar(); toast('Servicio guardado'); return cargar(); }).catch(function (e) { $('mErr').textContent = e.message; b.disabled = false; });
+  };
+}
+
+/* ---------- HORARIOS Y BLOQUEOS ---------- */
+function vHorarios() {
+  var c = D.config;
+  $('vista').innerHTML = '<div class="cab"><h1>Horarios</h1></div>' +
+    '<div class="panel"><h2>Atención semanal</h2>' + [1, 2, 3, 4, 5, 6, 0].map(function (n) {
+      var h = D.horarios.filter(function (x) { return x.dia === n; })[0] || { dia: n, nombre: DIASN[n], abre: '08:00', cierra: '18:00', activo: false };
+      return '<div class="hfila" data-d="' + n + '"><b style="text-transform:capitalize">' + esc(h.nombre || DIASN[n]) + '</b><input type="time" class="ha" value="' + h.abre + '"><input type="time" class="hc" value="' + h.cierra + '"><input type="checkbox" class="hx"' + (h.activo ? ' checked' : '') + ' title="Abierto"></div>';
+    }).join('') + '<button class="btn" id="hOk" style="margin-top:12px">Guardar horarios</button></div>' +
+    '<div class="panel"><h2>Reglas de agendamiento</h2><div class="dos">' +
+    '<div><label class="c">Turnos a la vez (sillones/profesionales)</label><input type="number" min="1" id="rCap" value="' + esc(c.capacidad || 1) + '"></div>' +
+    '<div><label class="c">Cada cuántos minutos se ofrece un horario</label><input type="number" min="5" step="5" id="rInt" value="' + esc(c.intervalo_min || 30) + '"></div>' +
+    '<div><label class="c">Días de anticipación para agendar</label><input type="number" min="1" max="60" id="rDias" value="' + esc(c.dias_adelanto || 30) + '"></div>' +
+    '<div><label class="c">El cliente reajusta hasta (horas antes)</label><input type="number" min="0" id="rHs" value="' + esc(c.horas_min_reajuste || 2) + '"></div>' +
+    '</div><button class="btn" id="rOk" style="margin-top:12px">Guardar reglas</button></div>' +
+    '<div class="panel"><h2>Días bloqueados (feriados, vacaciones)</h2><div class="tres"><input type="date" id="bF" min="' + D.hoy + '"><input id="bM" placeholder="Motivo (opcional)" maxlength="80"><button class="btn" id="bOk">Bloquear día</button></div>' +
+    '<div style="margin-top:12px">' + (D.bloqueos.slice().sort(function (a, b) { return a.fecha.localeCompare(b.fecha); }).map(function (b) {
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--linea)"><span><b>' + fCorta(b.fecha) + '</b> ' + esc(b.motivo) + '</span><button class="btn mini r" data-q="' + b.fecha + '">Quitar</button></div>';
+    }).join('') || '<div class="vacio">Sin días bloqueados.</div>') + '</div></div>';
+  $('hOk').onclick = function () {
+    var l = [].map.call($('vista').querySelectorAll('.hfila'), function (f) { return { dia: +f.getAttribute('data-d'), abre: f.querySelector('.ha').value, cierra: f.querySelector('.hc').value, activo: f.querySelector('.hx').checked }; });
+    api('adminGuardarHorarios', TOKEN, l).then(function () { toast('Horarios guardados'); return cargar(); }).catch(function (e) { toast(e.message); });
+  };
+  $('rOk').onclick = function () {
+    api('adminGuardarConfig', TOKEN, { capacidad: $('rCap').value, intervalo_min: $('rInt').value, dias_adelanto: $('rDias').value, horas_min_reajuste: $('rHs').value })
+      .then(function () { toast('Reglas guardadas'); return cargar(); }).catch(function (e) { toast(e.message); });
+  };
+  $('bOk').onclick = function () {
+    if (!$('bF').value) return toast('Elegí la fecha.');
+    api('adminBloqueo', TOKEN, $('bF').value, $('bM').value, false).then(function () { toast('Día bloqueado'); return cargar(); }).catch(function (e) { toast(e.message); });
+  };
+  $('vista').querySelectorAll('[data-q]').forEach(function (b) { b.onclick = function () { api('adminBloqueo', TOKEN, b.getAttribute('data-q'), '', true).then(function () { return cargar(); }).catch(function (e) { toast(e.message); }); }; });
+}
+
+/* ---------- CONFIGURACIÓN ---------- */
+function vConfig() {
+  var c = D.config;
+  function f(k, et, ph, tipo) { return '<label class="c">' + et + '</label>' + (tipo === 'ta' ? '<textarea data-k="' + k + '" rows="3" placeholder="' + esc(ph || '') + '">' + esc(c[k] || '') + '</textarea>' : '<input data-k="' + k + '" value="' + esc(c[k] || '') + '" placeholder="' + esc(ph || '') + '">'); }
+  $('vista').innerHTML = '<div class="cab"><h1>Configuración</h1></div>' +
+    '<div class="panel"><h2>Datos del salón</h2><div class="dos"><div>' + f('nombre', 'Nombre') + '</div><div>' + f('eslogan', 'Eslogan') + '</div></div>' + f('acerca', 'Texto de presentación', '', 'ta') +
+    '<div class="dos"><div>' + f('whatsapp', 'WhatsApp del salón (con 595)', '5959XXXXXXXX') + '</div><div>' + f('ciudad', 'Ciudad') + '</div></div>' + f('direccion', 'Dirección') + f('maps_url', 'Enlace de Google Maps', 'https://maps.app.goo.gl/...') +
+    '<div class="dos"><div>' + f('instagram', 'Instagram (URL)') + '</div><div>' + f('facebook', 'Facebook (URL)') + '</div></div></div>' +
+    '<div class="panel"><h2>Imágenes (enlaces directos, por ej. de postimg.cc)</h2>' + f('logo_url', 'Logo', 'https://i.postimg.cc/...') + f('hero_url', 'Foto de portada', 'https://i.postimg.cc/...') + f('galeria', 'Galería (un enlace por línea)', '', 'ta') + '</div>' +
+    '<div class="panel"><h2>Notificaciones al salón</h2><p style="color:var(--gris)">Cada vez que un cliente agenda, reajusta o cancela desde la web, se envía un correo a esta dirección. Con la app de Gmail en el celular llega como notificación.</p>' + f('email_avisos', 'Correo(s) para avisos (separados por coma)', 'salon@gmail.com') + '<button class="btn g" id="cPrueba" style="margin-top:12px">Guardar y enviar correo de prueba</button></div>' +
+    '<div class="panel"><h2>Notificaciones push en el celular</h2><p style="color:var(--gris)">Llegan al celular aunque el panel esté cerrado: turnos nuevos, reajustes, cancelaciones y mensajes del chat. Activalas en cada dispositivo del salón. En iPhone, primero agregá el panel a la pantalla de inicio.</p>' +
+    f('push_secret', 'Clave push (la misma que PUSH_SECRET en Vercel)', 'clave larga inventada') +
+    '<div class="acc" style="margin-top:12px"><button class="btn" id="pAct">🔔 Activar en este dispositivo</button><button class="btn g" id="pPrueba">Guardar y enviar prueba</button></div></div>' +
+    '<button class="btn" id="cOk">Guardar configuración</button>' +
+    '<div class="panel" style="margin-top:18px"><h2>Clave del panel</h2><div class="dos"><input type="password" id="cClave" placeholder="Nueva clave (mín. 4 caracteres)"><button class="btn g" id="cClaveOk">Cambiar clave</button></div></div>' +
+    (D.url ? '<div class="panel"><h2>Enlaces</h2><p>Web para clientes:<br><b style="word-break:break-all">' + esc(D.url) + '</b></p><p style="margin-top:8px">Panel:<br><b style="word-break:break-all">' + esc(D.url) + '/admin.html</b></p></div>' : '');
+  $('cOk').onclick = function () {
+    var o = {}; $('vista').querySelectorAll('[data-k]').forEach(function (e) { o[e.getAttribute('data-k')] = e.value; });
+    o.whatsapp = telWa(o.whatsapp);
+    api('adminGuardarConfig', TOKEN, o).then(function () { toast('Configuración guardada'); return cargar(); }).catch(function (e) { toast(e.message); });
+  };
+  $('cPrueba').onclick = function () {
+    var v = $('vista').querySelector('[data-k=email_avisos]').value;
+    api('adminGuardarConfig', TOKEN, { email_avisos: v }).then(function () { return api('adminProbarAviso', TOKEN); })
+      .then(function (p) { toast('Correo de prueba enviado a ' + p, 5000); return cargar(); }).catch(function (e) { toast(e.message, 6000); });
+  };
+  function secreto() { return { push_secret: $('vista').querySelector('[data-k=push_secret]').value.trim() }; }
+  $('pAct').onclick = function () {
+    PUSH.suscribir().then(function (s) { return api('adminGuardarConfig', TOKEN, secreto()).then(function () { return api('adminPushSuscribir', TOKEN, s); }); })
+      .then(function () { toast('Notificaciones activadas en este dispositivo ✓', 5000); }).catch(function (e) { toast(e.message, 8000); });
+  };
+  $('pPrueba').onclick = function () {
+    api('adminGuardarConfig', TOKEN, secreto()).then(function () { return api('adminPushProbar', TOKEN); })
+      .then(function (n) { toast('Prueba enviada a ' + n + ' dispositivo(s)', 5000); }).catch(function (e) { toast(e.message, 8000); });
+  };
+  $('cClaveOk').onclick = function () {
+    api('adminGuardarConfig', TOKEN, { admin_clave: $('cClave').value }).then(function () { toast('Clave cambiada'); $('cClave').value = ''; }).catch(function (e) { toast(e.message); });
+  };
+}
+
+/* ---------- MODAL TURNO (nuevo / editar / reajustar) ---------- */
+function abrir(html) { $('modalC').innerHTML = html; $('modal').classList.remove('oculto'); }
+function cerrar() { $('modal').classList.add('oculto'); $('modalC').innerHTML = ''; $('modalC').onclick = null; }
+$('modal').addEventListener('click', function (e) { if (e.target === this || e.target.hasAttribute('data-cerrar')) cerrar(); });
+
+function mTurno(t, soloMover, pre) {
+  var n = !t; t = t || { codigo: '', cliente: (pre && pre.cliente) || '', telefono: (pre && pre.telefono) || '', servicio_id: '', fecha: dia || D.hoy, hora: '', notas: '', estado: 'CONFIRMADO' };
+  var orig = { fecha: t.fecha, hora: t.hora }, ro = soloMover ? ' disabled' : '';
+  var servs = D.servicios.filter(function (s) { return s.activo || s.id === t.servicio_id; });
+  abrir('<h2>' + (n ? 'Nuevo turno' : soloMover ? 'Reajustar turno' : 'Editar turno') + '</h2>' +
+    (soloMover ? '<p style="color:var(--gris)">' + esc(t.cliente) + ' · ' + esc(t.servicio) + '<br>Actual: ' + esc(fLarga(t.fecha)) + ' ' + esc(t.hora) + ' hs</p>' : '') +
+    '<div' + (soloMover ? ' class="oculto"' : '') + '><label class="c">Cliente</label><input id="mN" value="' + esc(t.cliente) + '" maxlength="60"' + ro + '>' +
+    '<label class="c">WhatsApp</label><input id="mT" value="' + esc(t.telefono) + '" inputmode="tel" maxlength="20" placeholder="0981 123 456"' + ro + '>' +
+    '<label class="c">Servicio</label><select id="mS"><option value="">Elegir…</option>' + servs.map(function (s) { return '<option value="' + esc(s.id) + '"' + (s.id === t.servicio_id ? ' selected' : '') + '>' + esc(s.nombre) + ' (' + s.duracion + ' min · ' + gs(s.precio) + ')</option>'; }).join('') + '</select></div>' +
+    '<div class="dos"><div><label class="c">Fecha</label><input type="date" id="mF" value="' + esc(t.fecha) + '"></div><div><label class="c">Hora</label><select id="mH"><option value="">—</option></select></div></div>' +
+    '<div' + (soloMover ? ' class="oculto"' : '') + '><label class="c">Estado</label><select id="mE">' + D.estados.map(function (e) { return '<option' + (e === t.estado ? ' selected' : '') + '>' + e + '</option>'; }).join('') + '</select>' +
+    '<label class="c">Notas</label><textarea id="mO" rows="2" maxlength="200">' + esc(t.notas) + '</textarea></div>' +
+    '<label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="mW"' + (soloMover || n ? ' checked' : '') + '> Avisar al cliente por WhatsApp al guardar</label>' +
+    '<div class="err" id="mErr"></div><div class="pie"><button class="btn g" data-cerrar>Cerrar</button><button class="btn" id="mOk">Guardar</button></div>');
+
+  function horas() {
+    var f = $('mF').value, s = $('mS').value, sel = $('mH'), marca = sel._m = Date.now();
+    if (!f || !s) { sel.innerHTML = '<option value="">Elegí servicio y fecha</option>'; return; }
+    sel.innerHTML = '<option value="">Cargando…</option>';
+    api('adminHorarios', TOKEN, f, s, t.codigo).then(function (r) {
+      if (sel._m !== marca) return;
+      var l = r.slots.slice();
+      if (f === orig.fecha && orig.hora && l.indexOf(orig.hora) < 0) { l.push(orig.hora); l.sort(); }
+      sel.innerHTML = l.length ? '<option value="">Elegir hora…</option>' + l.map(function (h) { return '<option' + (f === orig.fecha && h === orig.hora ? ' selected' : '') + '>' + h + '</option>'; }).join('') : '<option value="">' + esc(r.motivo || 'Sin horarios') + '</option>';
+    }).catch(function (e) { if (sel._m === marca) sel.innerHTML = '<option value="">' + esc(e.message) + '</option>'; });
+  }
+  $('mF').onchange = horas; $('mS').onchange = horas; horas();
+
+  $('mOk').onclick = function () {
+    var b = this, d = { codigo: t.codigo, cliente: $('mN').value, telefono: $('mT').value, servicio_id: $('mS').value, fecha: $('mF').value, hora: $('mH').value, notas: $('mO').value, estado: $('mE').value };
+    if (!d.hora) return $('mErr').textContent = 'Elegí la hora.';
+    var movio = !n && (d.fecha !== orig.fecha || d.hora !== orig.hora), avisar = $('mW').checked;
+    if (soloMover && !movio) return $('mErr').textContent = 'Elegí una fecha u hora distinta.';
+    if (soloMover) d.estado = 'CONFIRMADO';
+    b.disabled = true;
+    var w = avisar && d.telefono ? window.open('about:blank', '_blank') : null;
+    api('adminGuardarTurno', TOKEN, d).then(function (r) {
+      if (w) w.location.href = waLink(r.telefono, msj(n ? 'confirmar' : movio ? 'reajuste' : 'recordar', r));
+      cerrar(); toast(n ? 'Turno creado' : movio ? 'Turno reajustado' : 'Turno guardado'); dia = r.fecha; return cargar();
+    }).catch(function (e) { if (w) w.close(); $('mErr').textContent = e.message; b.disabled = false; });
+  };
+}
+</script>
+</body>
+</html>

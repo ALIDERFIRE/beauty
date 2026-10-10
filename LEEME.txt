@@ -1,0 +1,36 @@
+BEAUTY COIFFURE — carpeta para Vercel
+=====================================
+
+Qué hay acá
+  index.html            Web del cliente (agendar, reajustar, chat)
+  admin.html            Panel administrativo  ->  https://TU-PROYECTO.vercel.app/admin.html
+  config.js             ÚNICO archivo a editar: pegar la URL /exec de Apps Script
+  app.js                Conexión con Apps Script + notificaciones push
+  sw.js                 Service worker (recibe las notificaciones)
+  manifest.webmanifest  Instalación como app (cliente)
+  admin.webmanifest     Instalación como app (panel)
+  api/push.js           Función de Vercel que envía las notificaciones
+  package.json          Dependencia web-push
+  logo.png, icon-*.png  Logo e íconos de la app
+
+Pasos
+  1. Apps Script: reemplazar Code.gs, ejecutar una vez la función autorizarCorreo
+     (acepta los permisos de correo, conexión externa y Google Drive para las fotos)
+     e implementar con "Nueva versión". Acceso: "Cualquier persona".
+  2. config.js ya tiene pegada la URL /exec de Apps Script (cambiarla solo si se crea otra implementación).
+  3. Subir esta carpeta a Vercel.
+  4. En Vercel > Settings > Environment Variables cargar:
+       VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY   (generar con: npx web-push generate-vapid-keys)
+       VAPID_SUBJECT                         mailto:tu-correo@gmail.com
+       PUSH_SECRET                           una clave larga inventada
+     y volver a desplegar (Redeploy).
+  5. Entrar a /admin.html, ir a Configuración > "Notificaciones push en el celular",
+     pegar la misma PUSH_SECRET, tocar "Activar en este dispositivo" y luego
+     "Guardar y enviar prueba".
+
+Fotos y promociones (desde /admin.html)
+  Fotos    Subir imágenes y elegir si van al carrusel de portada, a "Nuestro trabajo" o a ambos.
+           Se guardan en una carpeta de Google Drive de la cuenta dueña de la planilla.
+  Servicios  Cada servicio tiene el botón "Subir foto desde este dispositivo".
+  Promos   Crear promociones: se muestran en la web, se notifican por push a los clientes
+           que lo aceptaron y se pueden difundir por WhatsApp cliente por cliente.
