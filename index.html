@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beauty Coiffure · Reservá tu turno</title>
-<meta name="description" content="Salón de belleza femenino y masculino. Reservá, reajustá o cancelá tu turno online en un minuto.">
+<title>Beauty Coiffure · Agendá tu turno</title>
+<meta name="description" content="Salón de belleza femenino y masculino. Agendá tu turno por WhatsApp o por chat, directo con la profesional.">
 <link rel="canonical" href="https://beauty-six-sage.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Beauty Coiffure">
-<meta property="og:title" content="Beauty Coiffure · Reservá tu turno online">
-<meta property="og:description" content="Salón de belleza femenino y masculino. Agendá tu turno en un minuto, sin llamadas ni esperas.">
+<meta property="og:title" content="Beauty Coiffure · Agendá tu turno">
+<meta property="og:description" content="Salón de belleza femenino y masculino. Agendá tu turno por WhatsApp o por chat, directo con la profesional.">
 <meta property="og:url" content="https://beauty-six-sage.vercel.app/">
 <meta property="og:image" content="https://beauty-six-sage.vercel.app/og.jpg">
 <meta property="og:image:secure_url" content="https://beauty-six-sage.vercel.app/og.jpg">
@@ -189,6 +189,7 @@ footer .script{font-size:38px;color:#fff;display:block;margin-bottom:4px}
 /* ---- detalles y aparición al bajar ---- */
 .serv .img{height:180px;transition:transform .7s ease}.serv:hover .img{transform:scale(1.07)}
 .serv .cu{position:relative;background:#fff}
+.serv .pre{white-space:nowrap;font-size:15px}.serv .pie .btn.sm{padding:9px 14px}.serv .pie{flex-wrap:wrap}
 .rv{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}.rv.in{opacity:1;transform:none}
 @media(max-width:1000px){.car-i{flex-basis:calc((100% - 18px)/2)}.porq{grid-template-columns:repeat(2,1fr)}}
 .marca span{white-space:nowrap}
@@ -237,7 +238,6 @@ footer{text-align:left;padding:0}
   <div class="menu">
     <button class="lk oculto" id="navPromo" data-ir="promos">Promos</button>
     <button class="lk" data-ir="servicios">Servicios</button>
-    <button class="lk" data-ir="miturno">Mi turno</button>
     <button class="lk" data-ir="contacto">Contacto</button>
     <button class="btn sm" data-ir="reserva">Agendar</button>
   </div>
@@ -262,9 +262,9 @@ footer{text-align:left;padding:0}
 </header>
 
 <div class="cinta"><div class="wrap">
-  <div><i>📅</i><span><b>Reservá en 1 minuto</b>Elegí servicio, día y horario</span></div>
+  <div><i>📅</i><span><b>Agendá por WhatsApp</b>Coordinás directo con la profesional</span></div>
   <div><i>💬</i><span><b>Confirmación por WhatsApp</b>Te avisamos y te recordamos</span></div>
-  <div><i>🔄</i><span><b>Reajustá cuando quieras</b>Cambiá o cancelá con tu código</span></div>
+  <div><i>💭</i><span><b>Chat en la página</b>Consultá la disponibilidad al instante</span></div>
 </div></div>
 
 <section id="promos" class="oculto"><div class="wrap">
@@ -276,7 +276,7 @@ footer{text-align:left;padding:0}
 <div class="marq" aria-hidden="true"><div class="marq-t" id="marq"></div></div>
 
 <section id="servicios"><div class="wrap">
-  <div class="tit"><span class="script">Nuestros</span><h2>Servicios</h2><p>Elegí el servicio y agendá directamente tu turno.</p></div>
+  <div class="tit"><span class="script">Nuestros</span><h2>Servicios</h2><p>Mirá lo que hacemos y consultanos por WhatsApp.</p></div>
   <div class="filtros" id="filtros"></div>
   <div class="grid" id="gridServ"></div>
 </div></section>
@@ -295,38 +295,17 @@ footer{text-align:left;padding:0}
   <div class="tit"><span class="script">Por qué</span><h2>Elegirnos</h2></div>
   <div class="porq">
     <div><i>💜</i><h3>Atención personalizada</h3><p>Escuchamos lo que querés y te asesoramos según tu estilo.</p></div>
-    <div><i>📅</i><h3>Turnos sin esperas</h3><p>Reservás online en un minuto y venís a tu hora.</p></div>
+    <div><i>📅</i><h3>Turnos sin esperas</h3><p>Coordinás por WhatsApp o chat y venís a tu hora.</p></div>
     <div><i>✨</i><h3>Para ella y para él</h3><p>Cabello, barbería, manos y pies en un solo lugar.</p></div>
-    <div><i>🔄</i><h3>Flexibilidad total</h3><p>¿Surgió algo? Reajustás o cancelás tu turno desde el celular.</p></div>
+    <div><i>🔄</i><h3>Flexibilidad total</h3><p>¿Surgió algo? Nos escribís y reacomodamos tu turno.</p></div>
   </div>
 </div></section>
 
 <section id="reserva" class="fondo"><div class="wrap">
-  <div class="tit"><span class="script">Reservá</span><h2>Tu turno</h2><p>Sin llamadas ni esperas. Los horarios que ves están libres.</p></div>
-  <div class="caja">
-    <div id="formReserva">
-      <div class="paso"><label><b>1</b>Servicio</label><select id="selServ"></select></div>
-      <div class="paso"><label><b>2</b>Día</label><div class="dias" id="rDias"></div></div>
-      <div class="paso"><label><b>3</b>Horario</label><div id="rHoras"><div class="aviso">Elegí primero el servicio y el día.</div></div></div>
-      <div class="paso"><label><b>4</b>Tus datos</label>
-        <div class="dos"><input id="fNombre" placeholder="Nombre y apellido" maxlength="60" autocomplete="name"><input id="fTel" placeholder="WhatsApp (ej. 0981 123 456)" inputmode="tel" maxlength="20" autocomplete="tel"></div>
-        <textarea id="fNotas" rows="2" placeholder="Comentario (opcional)" maxlength="200" style="margin-top:12px"></textarea>
-      </div>
-      <div class="resumen" id="rResumen">Completá los pasos para ver el resumen.</div>
-      <button class="btn full" id="btnReservar">Confirmar turno</button>
-      <div class="err" id="rErr"></div>
-    </div>
-    <div id="okReserva" class="exito oculto"></div>
-  </div>
-</div></section>
-
-<section id="miturno"><div class="wrap">
-  <div class="tit"><span class="script">Consultá o reajustá</span><h2>Mi turno</h2><p>Ingresá el código que recibiste al reservar y tu número de WhatsApp.</p></div>
-  <div class="caja">
-    <div class="dos"><input id="mCod" placeholder="Código (ej. K7M2QX)" maxlength="8" style="text-transform:uppercase"><input id="mTel" placeholder="Tu WhatsApp" inputmode="tel" maxlength="20"></div>
-    <button class="btn full" id="btnBuscar" style="margin-top:12px">Buscar mi turno</button>
-    <div class="err" id="mErr"></div>
-    <div id="mRes"></div>
+  <div class="tit"><span class="script">Agendá</span><h2>Tu turno</h2><p>Escribinos por WhatsApp y coordiná el día y el horario directamente con la profesional.</p></div>
+  <div class="caja" style="text-align:center;max-width:560px">
+    <a class="btn wa" id="agWa" target="_blank" rel="noopener" style="font-size:17px;padding:16px 34px">Consultar por WhatsApp</a>
+    <p style="color:var(--gris);font-size:13.5px;margin-top:14px">Te respondemos con la disponibilidad para tu servicio.</p>
   </div>
 </div></section>
 
@@ -341,7 +320,7 @@ footer{text-align:left;padding:0}
 <footer>
   <div class="wrap pie-g">
     <div><span class="script" id="pieNombre">Beauty Coiffure</span><span id="pieEslogan"></span><p id="pieAcerca"></p></div>
-    <div><h4>Navegación</h4><button data-ir="inicio">Inicio</button><button data-ir="servicios">Servicios</button><button data-ir="reserva">Agendar turno</button><button data-ir="miturno">Mi turno</button><button data-chat>Chat con el salón</button><button id="piePush" class="oculto">🔔 Recibir promociones</button><div class="err" id="pieErr" style="min-height:0"></div></div>
+    <div><h4>Navegación</h4><button data-ir="inicio">Inicio</button><button data-ir="servicios">Servicios</button><button data-ir="reserva">Agendar turno</button><button data-chat>Chat con el salón</button><button id="piePush" class="oculto">🔔 Recibir promociones</button><div class="err" id="pieErr" style="min-height:0"></div></div>
     <div><h4>Contacto</h4><div id="pieContacto"></div></div>
   </div>
   <div class="pie-b"><div class="wrap"><span>© <span id="pieAnio"></span> <span id="pieNombre2">Beauty Coiffure</span>. Todos los derechos reservados.</span><a href="/admin.html">Acceso administración</a></div></div>
@@ -368,9 +347,8 @@ footer{text-align:left;padding:0}
   </div>
 </div>
 
-<script>var CODIGO_URL = (new URLSearchParams(location.search).get('t') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);</script>
 <script>
-var D = null, sel = { servicio: '', fecha: '', hora: '' }, filtro = 'Todos';
+var D = null, filtro = 'Todos';
 var DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
 var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 var ICONOS = { cabello: '✂️', 'barbería': '🪒', barberia: '🪒', manos: '💅', 'uñas': '💅', pies: '🦶', spa: '🌸', maquillaje: '💄', facial: '🧖' };
@@ -397,14 +375,13 @@ function linkTurno(t) { return D.url ? D.url + '?t=' + t.codigo : ''; }
 
 document.addEventListener('click', function (e) {
   var b = e.target.closest('[data-ir]'); if (b) ir(b.getAttribute('data-ir'));
-  if (e.target.closest('[data-chat]')) abrirChat();
+  if (e.target.closest('[data-chat]')) abrirChat('');
 });
 
 /* ---------- inicio ---------- */
 api('apiInicio').then(function (d) {
   D = d; pintar(); $('carga').classList.add('oculto'); chatLeer(true);
   if (location.hash === '#promos') setTimeout(function () { ir('promos'); }, 600);
-  if (CODIGO_URL) { $('mCod').value = CODIGO_URL; setTimeout(function () { ir('miturno'); $('mTel').focus(); }, 400); }
 }).catch(function (e) { $('carga').innerHTML = '<div style="padding:20px">No se pudo cargar la página.<br><small>' + esc(e.message) + '</small></div>'; });
 
 function pintar() {
@@ -413,7 +390,7 @@ function pintar() {
   $('heroEslogan').textContent = c.eslogan || ''; $('pieEslogan').textContent = (c.eslogan || '') + (c.ciudad ? ' · ' + c.ciudad : '');
   $('heroAcerca').textContent = c.acerca || '';
   var logo = urlOk(c.logo_url) || '/logo.png';   // sin logo cargado se usa el de la carpeta
-  document.title = nom + ' · Reservá tu turno';
+  document.title = nom + ' · Agendá tu turno';
   if (logo) { $('navLogo').src = logo; $('navLogo').classList.remove('oculto'); $('heroLogo').innerHTML = '<img src="' + esc(logo) + '" alt="' + esc(nom) + '">'; }
   else $('heroLogo').innerHTML = '<span class="script">' + esc(nom) + '</span>';
   var propias = String(c.galeria || '').split(/[\s,;]+/).map(urlOk).filter(Boolean);
@@ -433,11 +410,7 @@ function pintar() {
   $('filtros').innerHTML = cats.map(function (k) { return '<button class="chip' + (k === filtro ? ' on' : '') + '" data-cat="' + esc(k) + '">' + esc(k) + '</button>'; }).join('');
   pintarServicios();
 
-  var grupos = {}; D.servicios.forEach(function (s) { (grupos[s.categoria] = grupos[s.categoria] || []).push(s); });
-  $('selServ').innerHTML = '<option value="">Elegí un servicio…</option>' + Object.keys(grupos).map(function (g) {
-    return '<optgroup label="' + esc(g) + '">' + grupos[g].map(function (s) { return '<option value="' + esc(s.id) + '">' + esc(s.nombre) + ' — ' + gs(s.precio) + ' · ' + s.duracion + ' min</option>'; }).join('') + '</optgroup>';
-  }).join('');
-  pintarDias('rDias', sel.fecha, elegirFecha);
+  $('agWa').href = waLink(c.whatsapp, 'Hola ' + nom + ' 👋 Quiero consultar la disponibilidad para un turno.');
 
   $('hor').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(function (n) {
     var h = D.horarios.filter(function (x) { return x.dia === n; })[0]; if (!h) return '';
@@ -470,7 +443,7 @@ function pintarServicios() {
     return '<article class="serv"><div class="img"' + (img ? ' style="background-image:url(&quot;' + esc(img) + '&quot;)"' : '') + '>' + (img ? '' : icono(s.categoria)) + '</div>' +
       '<div class="cu"><span class="cat">' + esc(s.categoria) + '</span><h3>' + esc(s.nombre) + '</h3><p>' + esc(s.descripcion) + '</p>' +
       '<div class="pie"><div><div class="pre">' + gs(s.precio) + '</div><div class="dur">⏱ ' + s.duracion + ' min</div></div>' +
-      '<button class="btn sm" data-ag="' + esc(s.id) + '">Agendar</button></div></div></article>';
+      '<a class="btn sm wa" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, 'Hola ' + (D.config.nombre || '') + ' 👋 Quiero consultar la disponibilidad para ' + s.nombre + '.')) + '">Consultar</a></div></div></article>';
   }).join('') || '<div class="aviso">Pronto vas a ver nuestros servicios acá.</div>';
   aparecer();
 }
@@ -479,10 +452,6 @@ $('filtros').addEventListener('click', function (e) {
   filtro = b.getAttribute('data-cat');
   [].forEach.call($('filtros').children, function (x) { x.classList.toggle('on', x === b); });
   pintarServicios();
-});
-$('gridServ').addEventListener('click', function (e) {
-  var b = e.target.closest('[data-ag]'); if (!b) return;
-  $('selServ').value = b.getAttribute('data-ag'); cambioServicio(); ir('reserva');
 });
 
 /* ---------- fotos: portada, galería y animaciones ---------- */
@@ -544,148 +513,6 @@ function aparecer() {
   });
 }
 
-/* ---------- selector de días y horas (se usa en reserva y reajuste) ---------- */
-function diaCerrado(f) {
-  if (D.bloqueos.some(function (b) { return b.fecha === f; })) return true;
-  var h = D.horarios.filter(function (x) { return x.dia === fDate(f).getDay(); })[0];
-  return !h || !h.activo;
-}
-function pintarDias(cont, activa, alElegir) {
-  var n = Math.min(60, Math.max(1, parseInt(D.config.dias_adelanto, 10) || 30)), base = fDate(D.hoy), h = '';
-  for (var i = 0; i <= n; i++) {
-    var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i), f = iso(d);
-    h += '<button class="dia' + (diaCerrado(f) ? ' no' : '') + (f === activa ? ' on' : '') + '" data-f="' + f + '"><small>' + (i === 0 ? 'hoy' : DIAS[d.getDay()]) + '</small><b>' + d.getDate() + '</b><small>' + MESES[d.getMonth()].slice(0, 3) + '</small></button>';
-  }
-  var el = $(cont); el.innerHTML = h;
-  el.onclick = function (e) {
-    var b = e.target.closest('[data-f]'); if (!b) return;
-    [].forEach.call(el.children, function (x) { x.classList.toggle('on', x === b); });
-    alElegir(b.getAttribute('data-f'));
-  };
-}
-function cargarHoras(cont, fecha, servicioId, excluir, alElegir) {
-  var el = $(cont); el.innerHTML = '<div class="aviso">Buscando horarios libres…</div>';
-  var marca = el._m = Date.now();
-  api('apiHorarios', fecha, servicioId, excluir || '').then(function (r) {
-    if (el._m !== marca) return;
-    if (!r.slots.length) { el.innerHTML = '<div class="aviso">' + esc(r.motivo || 'Sin horarios libres.') + ' Probá con otro día.</div>'; return; }
-    el.innerHTML = '<div class="horas">' + r.slots.map(function (h) { return '<button class="hora" data-h="' + h + '">' + h + '</button>'; }).join('') + '</div>';
-    el.onclick = function (e) {
-      var b = e.target.closest('[data-h]'); if (!b) return;
-      [].forEach.call(el.querySelectorAll('.hora'), function (x) { x.classList.toggle('on', x === b); });
-      alElegir(b.getAttribute('data-h'));
-    };
-  }).catch(function (e) { if (el._m === marca) el.innerHTML = '<div class="aviso">' + esc(e.message) + '</div>'; });
-}
-
-/* ---------- reserva ---------- */
-function cambioServicio() { sel.servicio = $('selServ').value; sel.hora = ''; refrescarHoras(); resumen(); }
-function elegirFecha(f) { sel.fecha = f; sel.hora = ''; refrescarHoras(); resumen(); }
-function refrescarHoras() {
-  if (!sel.servicio || !sel.fecha) { $('rHoras').innerHTML = '<div class="aviso">Elegí primero el servicio y el día.</div>'; return; }
-  cargarHoras('rHoras', sel.fecha, sel.servicio, '', function (h) { sel.hora = h; resumen(); });
-}
-function resumen() {
-  var s = servicio(sel.servicio);
-  if (!s) { $('rResumen').textContent = 'Completá los pasos para ver el resumen.'; return; }
-  $('rResumen').innerHTML = '<b>' + esc(s.nombre) + '</b> · ' + gs(s.precio) + ' · ' + s.duracion + ' min' +
-    (sel.fecha ? '<br>📅 ' + esc(fLarga(sel.fecha)) + (sel.hora ? ' a las <b>' + sel.hora + ' hs</b>' : ' — falta elegir horario') : '<br>Falta elegir el día');
-}
-$('selServ').addEventListener('change', cambioServicio);
-
-$('btnReservar').addEventListener('click', function () {
-  var err = $('rErr'); err.textContent = '';
-  var nom = $('fNombre').value.trim(), tel = $('fTel').value.replace(/\D/g, '');
-  if (!sel.servicio) return err.textContent = 'Elegí un servicio.';
-  if (!sel.fecha) return err.textContent = 'Elegí el día.';
-  if (!sel.hora) return err.textContent = 'Elegí un horario.';
-  if (nom.length < 3) return err.textContent = 'Escribí tu nombre y apellido.';
-  if (tel.length < 9) return err.textContent = 'Escribí tu número de WhatsApp.';
-  var b = this; b.disabled = true; b.textContent = 'Reservando…';
-  api('apiReservar', { servicio_id: sel.servicio, fecha: sel.fecha, hora: sel.hora, cliente: nom, telefono: tel, notas: $('fNotas').value })
-    .then(function (t) {
-      $('formReserva').classList.add('oculto');
-      var msg = '¡Hola ' + (D.config.nombre || '') + '! 👋 Acabo de agendar un turno:\n\n' +
-        '👤 ' + t.cliente + '\n💇 ' + t.servicio + '\n📅 ' + fLarga(t.fecha) + '\n🕐 ' + t.hora + ' hs\n🔖 Código: ' + t.codigo +
-        (t.notas ? '\n📝 ' + t.notas : '') + '\n\n¿Me confirman, por favor?';
-      $('okReserva').innerHTML = '<div class="tic">✓</div><h3>¡Turno reservado!</h3><p>Guardá tu código para consultar o reajustar el turno:</p>' +
-        '<div class="cod">' + esc(t.codigo) + '</div>' + detalle(t) +
-        '<p style="color:var(--gris);font-size:14px">Envianos el mensaje por WhatsApp para que te confirmemos el turno.</p>' +
-        '<div class="fila-b"><a class="btn wa" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, msg)) + '">Enviar por WhatsApp</a>' +
-        (PUSH.ok ? '<button class="btn borde" id="btnPushT" data-ref="' + esc(t.codigo) + '">🔔 Avisarme en este celular</button>' : '') +
-        '<button class="btn borde" id="btnOtro">Agendar otro</button></div><div class="err" id="pushErr"></div>';
-      $('okReserva').classList.remove('oculto'); ir('reserva');
-      $('mCod').value = t.codigo; $('mTel').value = $('fTel').value;
-    })
-    .catch(function (e) { err.textContent = e.message; refrescarHoras(); sel.hora = ''; resumen(); })
-    .then(function () { b.disabled = false; b.textContent = 'Confirmar turno'; });
-});
-$('okReserva').addEventListener('click', function (e) {
-  if (e.target.id === 'btnPushT') return activarPush(e.target, e.target.getAttribute('data-ref'), $('fTel').value, $('pushErr'));
-  if (e.target.id !== 'btnOtro') return;
-  sel = { servicio: '', fecha: '', hora: '' }; $('selServ').value = ''; $('fNotas').value = '';
-  pintarDias('rDias', '', elegirFecha); refrescarHoras(); resumen();
-  $('okReserva').classList.add('oculto'); $('formReserva').classList.remove('oculto');
-});
-function detalle(t) {
-  return '<div class="det"><div><span>Servicio</span><b>' + esc(t.servicio) + '</b></div><div><span>Día</span><b>' + esc(fLarga(t.fecha)) + '</b></div>' +
-    '<div><span>Hora</span><b>' + esc(t.hora) + ' hs</b></div><div><span>Precio</span><b>' + gs(t.precio) + '</b></div>' +
-    '<div><span>Estado</span><span class="est ' + esc(t.estado) + '">' + esc(t.estado) + '</span></div></div>';
-}
-
-/* ---------- mi turno: consultar, reajustar, cancelar ---------- */
-var miTurno = null, nuevo = { fecha: '', hora: '' };
-$('btnBuscar').addEventListener('click', buscar);
-function buscar() {
-  var err = $('mErr'); err.textContent = ''; $('mRes').innerHTML = '';
-  var cod = $('mCod').value.trim().toUpperCase(), tel = $('mTel').value.replace(/\D/g, '');
-  if (cod.length < 4 || tel.length < 6) return err.textContent = 'Ingresá tu código y tu número de WhatsApp.';
-  var b = $('btnBuscar'); b.disabled = true; b.textContent = 'Buscando…';
-  api('apiConsultar', cod, tel).then(function (t) { miTurno = t; pintarMiTurno(); })
-    .catch(function (e) { err.textContent = e.message; })
-    .then(function () { b.disabled = false; b.textContent = 'Buscar mi turno'; });
-}
-function pintarMiTurno(aviso) {
-  var t = miTurno, edita = t.estado === 'PENDIENTE' || t.estado === 'CONFIRMADO';
-  $('mRes').innerHTML = '<div class="exito" style="margin-top:20px">' + (aviso || '') + '<h3>' + esc(t.cliente) + '</h3>' + detalle(t) +
-    (edita ? '<div class="fila-b"><button class="btn" id="bReaj">🔄 Reajustar turno</button><button class="btn rojo" id="bCanc">Cancelar turno</button></div>' : '') +
-    '<div id="zonaReaj"></div></div>';
-}
-$('mRes').addEventListener('click', function (e) {
-  var id = e.target.id, t = miTurno, tel = $('mTel').value.replace(/\D/g, '');
-  if (id === 'bReaj') {
-    nuevo = { fecha: '', hora: '' };
-    $('zonaReaj').innerHTML = '<div style="text-align:left;margin-top:24px"><div class="paso"><label><b>1</b>Nuevo día</label><div class="dias" id="xDias"></div></div>' +
-      '<div class="paso"><label><b>2</b>Nuevo horario</label><div id="xHoras"><div class="aviso">Elegí el día.</div></div></div>' +
-      '<button class="btn full" id="bGuardarReaj" disabled>Confirmar nuevo horario</button><div class="err" id="xErr"></div></div>';
-    pintarDias('xDias', '', function (f) {
-      nuevo.fecha = f; nuevo.hora = ''; $('bGuardarReaj').disabled = true;
-      cargarHoras('xHoras', f, t.servicio_id, t.codigo, function (h) { nuevo.hora = h; $('bGuardarReaj').disabled = false; });
-    });
-  }
-  if (id === 'bGuardarReaj') {
-    var b = e.target, antes = fLarga(t.fecha) + ' ' + t.hora + ' hs'; b.disabled = true; b.textContent = 'Guardando…';
-    api('apiReajustar', t.codigo, tel, nuevo.fecha, nuevo.hora).then(function (r) {
-      miTurno = r;
-      var msg = '¡Hola ' + (D.config.nombre || '') + '! 👋 Reajusté mi turno:\n\n👤 ' + r.cliente + '\n💇 ' + r.servicio + '\n❌ Antes: ' + antes +
-        '\n✅ Ahora: ' + fLarga(r.fecha) + ' ' + r.hora + ' hs\n🔖 Código: ' + r.codigo;
-      pintarMiTurno('<div class="tic">✓</div><p><b>Turno reajustado.</b> Avisanos por WhatsApp para confirmarlo.</p>' +
-        '<div class="fila-b" style="margin-bottom:14px"><a class="btn wa" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, msg)) + '">Avisar por WhatsApp</a></div>');
-      refrescarHoras();
-    }).catch(function (er) { $('xErr').textContent = er.message; b.disabled = false; b.textContent = 'Confirmar nuevo horario'; });
-  }
-  if (id === 'bCanc') {
-    if (!confirm('¿Seguro que querés cancelar tu turno?')) return;
-    e.target.disabled = true;
-    api('apiCancelar', t.codigo, tel).then(function (r) {
-      miTurno = r;
-      var msg = 'Hola ' + (D.config.nombre || '') + ', cancelé mi turno de ' + r.servicio + ' del ' + fLarga(r.fecha) + ' a las ' + r.hora + ' hs (código ' + r.codigo + '). ¡Gracias!';
-      pintarMiTurno('<p><b>Turno cancelado.</b></p><div class="fila-b" style="margin-bottom:14px"><a class="btn wa" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, msg)) + '">Avisar por WhatsApp</a></div>');
-      refrescarHoras();
-    }).catch(function (er) { $('mErr').textContent = er.message; e.target.disabled = false; });
-  }
-});
-
 /* ---------- chat con el salón ---------- */
 var chat = { hilo: '', marca: '', abierto: false, tics: 0 };
 try { chat.hilo = localStorage.getItem('bc_hilo') || ''; } catch (e) {}
@@ -712,7 +539,7 @@ function pintarPromos() {
     var img = urlOk(p.imagen), h = p.hasta ? p.hasta.split('-') : null;
     return '<article class="serv"><div class="img"' + (img ? ' style="background-image:url(&quot;' + esc(img) + '&quot;)"' : '') + '>' + (img ? '' : '🎉') + '</div>' +
       '<div class="cu"><span class="cat">Promoción' + (h ? ' · hasta el ' + h[2] + '/' + h[1] : '') + '</span><h3>' + esc(p.titulo) + '</h3><p>' + esc(p.texto) + '</p>' +
-      '<div class="pie"><button class="btn sm" data-ir="reserva">Agendar</button><a class="btn wa sm" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, 'Hola ' + nom + ' 👋 Quiero consultar por la promo: ' + p.titulo)) + '">Consultar</a></div></div></article>';
+      '<div class="pie"><span></span><a class="btn wa sm" target="_blank" rel="noopener" href="' + esc(waLink(D.config.whatsapp, 'Hola ' + nom + ' 👋 Quiero consultar por la promo: ' + p.titulo)) + '">Consultar</a></div></div></article>';
   }).join('');
   var puede = PUSH.ok && !pushHecho('PROMO');
   $('promoPush').classList.toggle('oculto', !puede); $('piePush').classList.toggle('oculto', !puede);
@@ -721,10 +548,12 @@ $('promoPush').onclick = function () { activarPush(this, 'PROMO', '', $('promoEr
 $('piePush').onclick = function () { activarPush(this, 'PROMO', '', $('pieErr')); };
 function chatBadge(n) { var b = $('chatN'); b.textContent = n || ''; b.classList.toggle('oculto', !n); }
 function chatReiniciar(msg) { guardarHilo(''); chat.marca = ''; chatModo(); chatBadge(0); $('chErr').textContent = msg || ''; }
-function abrirChat() {
+function abrirChat(texto) {
   chat.abierto = true; $('chatW').classList.remove('oculto'); chatModo();
-  if (chat.hilo) { chatBadge(0); chatLeer(true); setTimeout(function () { $('chTxt').focus(); }, 60); }
-  else { if (!$('chNombre').value) $('chNombre').value = $('fNombre').value; if (!$('chTel').value) $('chTel').value = $('fTel').value; }
+  var campo = $(chat.hilo ? 'chTxt' : 'chMsg1');
+  if (typeof texto === 'string' && texto) campo.value = texto;   // mensaje ya armado desde "Agendar"
+  if (chat.hilo) { chatBadge(0); chatLeer(true); }
+  setTimeout(function () { (chat.hilo || $('chNombre').value ? campo : $('chNombre')).focus(); }, 60);
 }
 $('chatX').onclick = function () { chat.abierto = false; $('chatW').classList.add('oculto'); };
 function chatPintar(r) {

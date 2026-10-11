@@ -354,13 +354,13 @@ function enviarChat() {
 
 /* ---------- mensajes de WhatsApp ---------- */
 function msj(tipo, t) {
-  var n = D.config.nombre || 'el salón', link = D.url ? '\n\nPara reajustar o cancelar: ' + D.url + '?t=' + t.codigo : '';
-  var base = '💇 ' + t.servicio + '\n📅 ' + fLarga(t.fecha) + '\n🕐 ' + t.hora + ' hs\n🔖 Código: ' + t.codigo;
+  var n = D.config.nombre || 'el salón', link = '\n\nSi necesitás cambiar el horario, escribinos por acá.';
+  var base = '💇 ' + t.servicio + '\n📅 ' + fLarga(t.fecha) + '\n🕐 ' + t.hora + ' hs';
   var nom = String(t.cliente).split(' ')[0];
   if (tipo === 'confirmar') return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.\nTu turno está CONFIRMADO ✅\n\n' + base + link + '\n\n¡Te esperamos! 💜';
   if (tipo === 'recordar') return 'Hola ' + nom + ' 👋 Te recordamos tu turno en ' + n + ':\n\n' + base + link + '\n\n¡Te esperamos! 💜';
   if (tipo === 'reajuste') return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.\nTu turno fue REAJUSTADO 🔄 Quedó así:\n\n' + base + link + '\n\nSi no te queda bien avisanos. ¡Gracias! 💜';
-  if (tipo === 'cancelar') return 'Hola ' + nom + ', te escribimos de ' + n + '. Tu turno de ' + t.servicio + ' del ' + fLarga(t.fecha) + ' a las ' + t.hora + ' hs fue cancelado.' + (D.url ? ' Podés agendar otro acá: ' + D.url : '');
+  if (tipo === 'cancelar') return 'Hola ' + nom + ', te escribimos de ' + n + '. Tu turno de ' + t.servicio + ' del ' + fLarga(t.fecha) + ' a las ' + t.hora + ' hs fue cancelado.' + ' Escribinos para coordinar otro horario.';
   return 'Hola ' + nom + ' 👋 Te escribimos de ' + n + '.';
 }
 function abrirWa(tipo, t) { if (!t.telefono) return toast('Este turno no tiene teléfono.'); window.open(waLink(t.telefono, msj(tipo, t)), '_blank'); }
@@ -646,8 +646,6 @@ function vHorarios() {
     '<div class="panel"><h2>Reglas de agendamiento</h2><div class="dos">' +
     '<div><label class="c">Turnos a la vez (sillones/profesionales)</label><input type="number" min="1" id="rCap" value="' + esc(c.capacidad || 1) + '"></div>' +
     '<div><label class="c">Cada cuántos minutos se ofrece un horario</label><input type="number" min="5" step="5" id="rInt" value="' + esc(c.intervalo_min || 30) + '"></div>' +
-    '<div><label class="c">Días de anticipación para agendar</label><input type="number" min="1" max="60" id="rDias" value="' + esc(c.dias_adelanto || 30) + '"></div>' +
-    '<div><label class="c">El cliente reajusta hasta (horas antes)</label><input type="number" min="0" id="rHs" value="' + esc(c.horas_min_reajuste || 2) + '"></div>' +
     '</div><button class="btn" id="rOk" style="margin-top:12px">Guardar reglas</button></div>' +
     '<div class="panel"><h2>Días bloqueados (feriados, vacaciones)</h2><div class="tres"><input type="date" id="bF" min="' + D.hoy + '"><input id="bM" placeholder="Motivo (opcional)" maxlength="80"><button class="btn" id="bOk">Bloquear día</button></div>' +
     '<div style="margin-top:12px">' + (D.bloqueos.slice().sort(function (a, b) { return a.fecha.localeCompare(b.fecha); }).map(function (b) {
@@ -658,7 +656,7 @@ function vHorarios() {
     api('adminGuardarHorarios', TOKEN, l).then(function () { toast('Horarios guardados'); return cargar(); }).catch(function (e) { toast(e.message); });
   };
   $('rOk').onclick = function () {
-    api('adminGuardarConfig', TOKEN, { capacidad: $('rCap').value, intervalo_min: $('rInt').value, dias_adelanto: $('rDias').value, horas_min_reajuste: $('rHs').value })
+    api('adminGuardarConfig', TOKEN, { capacidad: $('rCap').value, intervalo_min: $('rInt').value })
       .then(function () { toast('Reglas guardadas'); return cargar(); }).catch(function (e) { toast(e.message); });
   };
   $('bOk').onclick = function () {

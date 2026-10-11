@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Beauty Coiffure",
   "short_name": "Beauty Coiffure",
-  "description": "Reservá y reajustá tu turno en Beauty Coiffure",
+  "description": "Agendá tu turno en Beauty Coiffure por WhatsApp o chat",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
