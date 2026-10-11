@@ -105,6 +105,9 @@ td{padding:10px;border-bottom:1px solid var(--linea);vertical-align:middle}
 .sthumb{width:64px;height:48px;border-radius:8px;object-fit:cover;background:var(--pastel);display:grid;place-items:center;font-size:10px;color:var(--gris);text-align:center}
 #sPrev{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-top:8px}
 .pvac{aspect-ratio:4/3;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,var(--pastel),#dcc3f1)}
+.vthumb{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#34105a,#6d2aa0);display:grid;place-items:center}
+.vthumb img{position:absolute;inset:0;height:100%}
+.vthumb span{position:relative;background:rgba(0,0,0,.6);color:#fff;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:99px;letter-spacing:.06em}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .fcard{border:1px solid var(--linea);border-radius:14px;overflow:hidden;background:#fff}
 .fcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--pastel)}
@@ -145,7 +148,7 @@ aside{border-right:0;border-bottom:1px solid var(--linea);padding:8px}aside nav{
 <div id="app" class="oculto">
   <header class="top">
     <div class="marca"><img id="aLogo" src="/logo.png" alt=""><div><span class="script" id="aNombre">Beauty Coiffure</span><small>Panel administrativo</small></div></div>
-    <div class="top-a"><span id="aFecha"></span><button id="campana">🔔 <span class="tx">Avisos</span> <b id="campN" class="oculto"></b></button><a id="verWeb" target="_blank" rel="noopener">🌐 <span class="tx">Ver web</span></a><button id="salir">Salir</button></div>
+    <div class="top-a"><span id="aFecha"></span><button id="compartir">📤 <span class="tx">Compartir</span></button><button id="campana">🔔 <span class="tx">Avisos</span> <b id="campN" class="oculto"></b></button><a id="verWeb" target="_blank" rel="noopener">🌐 <span class="tx">Ver web</span></a><button id="salir">Salir</button></div>
   </header>
   <aside>
     <nav id="menu">
@@ -153,7 +156,7 @@ aside{border-right:0;border-bottom:1px solid var(--linea);padding:8px}aside nav{
       <button data-v="turnos">📋 Turnos</button>
       <button data-v="chat">💬 Chat <b id="chatN" class="oculto"></b></button>
       <button data-v="clientes">👥 Clientes</button>
-      <button data-v="fotos">🖼️ Fotos</button>
+      <button data-v="fotos">🖼️ Fotos y videos</button>
       <button data-v="promos">📣 Promos</button>
       <button data-v="servicios">💇 Servicios</button>
       <button data-v="horarios">🕐 Horarios</button>
@@ -209,6 +212,23 @@ function entrar() {
 }
 $('lBtn').onclick = entrar;
 $('lClave').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
+/* ---------- compartir la página con personas que todavía no son clientas ---------- */
+$('compartir').onclick = function () {
+  var nom = D.config.nombre || 'nuestro salón', url = location.origin + '/';
+  var texto = '¡Hola! 👋 Te invitamos a conocer ' + nom + ' 💜\nMirá nuestros servicios, trabajos y promociones, y consultá tu turno por WhatsApp:\n' + url;
+  abrir('<h2>Compartir la página</h2><p style="color:var(--gris)">Mensaje de presentación para enviar a quien todavía no es cliente. Podés editarlo antes de enviarlo.</p>' +
+    '<label class="c">Mensaje</label><textarea id="shT" rows="5">' + esc(texto) + '</textarea>' +
+    '<label class="c">Enlace de la página</label><input id="shU" readonly value="' + esc(url) + '">' +
+    '<div class="pie" style="justify-content:flex-start"><button class="btn wa" id="shW">Enviar por WhatsApp</button><button class="btn g" id="shC">Copiar mensaje</button>' +
+    (navigator.share ? '<button class="btn g" id="shN">Otras apps…</button>' : '') + '<button class="btn g" data-cerrar>Cerrar</button></div>');
+  $('shW').onclick = function () { window.open('https://wa.me/?text=' + encodeURIComponent($('shT').value), '_blank'); };
+  $('shC').onclick = function () {
+    var b = this, t = $('shT'), ok = function () { b.textContent = '✓ Copiado'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(ok, function () { t.select(); document.execCommand('copy'); ok(); });
+    else { t.select(); document.execCommand('copy'); ok(); }
+  };
+  if ($('shN')) $('shN').onclick = function () { navigator.share({ title: nom, text: $('shT').value }).catch(function () {}); };
+};
 $('salir').onclick = function () { AVISOS = []; hiloAbierto = ''; sinLeer = 0; campana(); api('adminSalir', TOKEN).catch(function () {}); guardarToken(''); $('app').classList.add('oculto'); $('login').classList.remove('oculto'); };
 try { var tk = sessionStorage.getItem('bc_tk'); if (tk) { TOKEN = tk; cargar().catch(function () {}); } } catch (e) {}
 
@@ -476,25 +496,41 @@ function reducir(file) {
     img.src = u;
   });
 }
+function leerVideo(file) {
+  return new Promise(function (ok, mal) {
+    if (file.size > 20 * 1024 * 1024) return mal(new Error('"' + file.name + '" pesa más de 20 MB. Subilo a YouTube y pegá el enlace abajo.'));
+    var r = new FileReader();
+    r.onload = function () { ok(r.result); }; r.onerror = function () { mal(new Error('No se pudo leer "' + file.name + '".')); };
+    r.readAsDataURL(file);
+  });
+}
 function vFotos() {
-  $('vista').innerHTML = '<div class="cab"><h1>Fotos</h1><span style="color:var(--gris)">Lo que se ve en la web del cliente</span></div>' +
-    '<div class="panel"><h2>Subir fotos</h2><div class="fsube"><div><label class="c">Elegí una o varias fotos</label><input type="file" id="fArch" accept="image/*" multiple></div>' +
+  $('vista').innerHTML = '<div class="cab"><h1>Fotos y videos</h1><span style="color:var(--gris)">Lo que se ve en la web del cliente</span></div>' +
+    '<div class="panel"><h2>Subir fotos o videos</h2><div class="fsube"><div><label class="c">Elegí fotos o videos (videos de hasta 20 MB)</label><input type="file" id="fArch" accept="image/*,video/mp4,video/quicktime,video/webm" multiple></div>' +
     '<div><label class="c">Título (opcional)</label><input id="fTit" maxlength="50" placeholder="Ej.: Balayage, Corte y barba…"></div></div>' +
     '<div style="display:flex;gap:18px;flex-wrap:wrap;margin:14px 0"><label class="chk"><input type="checkbox" id="fPort"> Carrusel de portada</label><label class="chk"><input type="checkbox" id="fTrab" checked> Galería "Nuestro trabajo"</label></div>' +
     '<div class="acc"><button class="btn" id="fSubir">⬆ Subir</button><span id="fEst" style="align-self:center;color:var(--gris)"></span></div>' +
-    '<p style="color:var(--gris);font-size:12.5px;margin-top:12px">Para la portada quedan mejor las fotos horizontales y nítidas. Mientras no haya fotos subidas en un lugar, la web muestra las de ejemplo.</p></div>' +
+    '<div class="fsube" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--linea)"><div><label class="c">O agregá un video de YouTube (para videos largos)</label><input id="fYt" placeholder="https://youtu.be/…"></div><div><button class="btn g" id="fYtOk">Agregar video de YouTube</button></div></div>' +
+    '<p style="color:var(--gris);font-size:12.5px;margin-top:12px">Los videos se muestran en la sección "Nuestros videos" de la web. Un video recién subido puede tardar unos minutos en poder reproducirse. Para la portada quedan mejor las fotos horizontales y nítidas. Mientras no haya fotos subidas en un lugar, la web muestra las de ejemplo.</p></div>' +
     '<div class="panel"><h2>Fotos cargadas</h2><div class="fgrid" id="fGrid"></div></div>';
   pintarFotos();
+  $('fYtOk').onclick = function () {
+    api('adminVideoEnlace', TOKEN, { url: $('fYt').value, titulo: $('fTit').value }).then(function (l) { D.fotos = l; $('fYt').value = ''; pintarFotos(); toast('Video agregado ✓'); })
+      .catch(function (e) { toast(e.message, 7000); });
+  };
   $('fSubir').onclick = function () {
     var fs = [].slice.call($('fArch').files), b = this, est = $('fEst'), i = 0, ok = 0;
     if (!fs.length) return toast('Elegí una o más fotos.');
-    if (!$('fPort').checked && !$('fTrab').checked) return toast('Marcá dónde se van a mostrar.');
+    if (!$('fPort').checked && !$('fTrab').checked && fs.some(function (f) { return f.type.indexOf('video/') !== 0; })) return toast('Marcá dónde se van a mostrar las fotos.');
     var op = { titulo: $('fTit').value, portada: $('fPort').checked, trabajos: $('fTrab').checked };
     b.disabled = true;
     (function sig() {
-      if (i >= fs.length) { b.disabled = false; est.textContent = ''; $('fArch').value = ''; $('fTit').value = ''; if (ok) toast(ok + ' foto(s) subida(s) ✓', 4000); return; }
+      if (i >= fs.length) { b.disabled = false; est.textContent = ''; $('fArch').value = ''; $('fTit').value = ''; if (ok) toast(ok + ' archivo(s) subido(s) ✓', 4000); return; }
       est.textContent = 'Subiendo ' + (i + 1) + ' de ' + fs.length + '…';
-      reducir(fs[i]).then(function (data) { return api('adminSubirFoto', TOKEN, { data: data, titulo: op.titulo, portada: op.portada, trabajos: op.trabajos }); })
+      var esVideo = fs[i].type.indexOf('video/') === 0;
+      if (esVideo) est.textContent = 'Subiendo video ' + (i + 1) + ' de ' + fs.length + '… puede tardar un par de minutos, no cierres esta página.';
+      (esVideo ? leerVideo(fs[i]).then(function (data) { return api('adminSubirVideo', TOKEN, { data: data, titulo: op.titulo }); })
+               : reducir(fs[i]).then(function (data) { return api('adminSubirFoto', TOKEN, { data: data, titulo: op.titulo, portada: op.portada, trabajos: op.trabajos }); }))
         .then(function (l) { ok++; D.fotos = l; pintarFotos(); }, function (e) { toast(e.message, 7000); })
         .then(function () { i++; sig(); });
     })();
@@ -503,16 +539,20 @@ function vFotos() {
 function pintarFotos() {
   var el = $('fGrid'); if (!el) return; var l = D.fotos || [];
   el.innerHTML = l.map(function (f, i) {
+    if (f.tipo !== 'FOTO') return '<div class="fcard" data-id="' + esc(f.id) + '"><div class="vthumb"><img src="' + esc(f.url) + '" alt="" loading="lazy" onerror="this.remove()"><span>▶ ' + (f.tipo === 'YOUTUBE' ? 'YOUTUBE' : 'VIDEO') + '</span></div><div class="fc">' +
+      '<input class="ft" value="' + esc(f.titulo) + '" maxlength="50" placeholder="Título (opcional)"><small style="color:var(--gris)">Se muestra en "Nuestros videos". <a href="' + esc(f.embed) + '" target="_blank" rel="noopener">Ver</a></small>' +
+      '<div class="acc" style="margin:0"><button class="btn mini g" data-m="-1"' + (i === 0 ? ' disabled' : '') + ' title="Mostrar antes">◀</button><button class="btn mini g" data-m="1"' + (i === l.length - 1 ? ' disabled' : '') + ' title="Mostrar después">▶</button>' +
+      '<button class="btn mini r" data-b="1" style="margin-left:auto">Eliminar</button></div></div></div>';
     return '<div class="fcard" data-id="' + esc(f.id) + '"><img src="' + esc(f.url) + '" data-alt="' + esc(f.alt) + '" alt="" loading="lazy" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.dataset.alt=&quot;&quot;}"><div class="fc">' +
       '<input class="ft" value="' + esc(f.titulo) + '" maxlength="50" placeholder="Título (opcional)">' +
       '<label class="chk"><input type="checkbox" class="fp"' + (f.portada ? ' checked' : '') + '> Carrusel de portada</label>' +
       '<label class="chk"><input type="checkbox" class="fw"' + (f.trabajos ? ' checked' : '') + '> Nuestro trabajo</label>' +
       '<div class="acc" style="margin:0"><button class="btn mini g" data-m="-1"' + (i === 0 ? ' disabled' : '') + ' title="Mostrar antes">◀</button><button class="btn mini g" data-m="1"' + (i === l.length - 1 ? ' disabled' : '') + ' title="Mostrar después">▶</button>' +
       '<button class="btn mini r" data-b="1" style="margin-left:auto">Eliminar</button></div></div></div>';
-  }).join('') || '<div class="vacio" style="grid-column:1/-1">Todavía no subiste fotos. La web está mostrando las de ejemplo.</div>';
+  }).join('') || '<div class="vacio" style="grid-column:1/-1">Todavía no subiste fotos ni videos. La web está mostrando las fotos de ejemplo.</div>';
   el.onchange = function (e) {
     var c = e.target.closest('.fcard'); if (!c) return;
-    api('adminFotoGuardar', TOKEN, { id: c.getAttribute('data-id'), titulo: c.querySelector('.ft').value, portada: c.querySelector('.fp').checked, trabajos: c.querySelector('.fw').checked })
+    api('adminFotoGuardar', TOKEN, { id: c.getAttribute('data-id'), titulo: c.querySelector('.ft').value, portada: !!(c.querySelector('.fp') || {}).checked, trabajos: !!(c.querySelector('.fw') || {}).checked })
       .then(function (l) { D.fotos = l; toast('Guardado ✓'); }).catch(function (er) { toast(er.message, 6000); pintarFotos(); });
   };
   el.onclick = function (e) {

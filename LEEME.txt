@@ -29,8 +29,11 @@ Pasos
      "Guardar y enviar prueba".
 
 Fotos y promociones (desde /admin.html)
-  Fotos    Subir imágenes y elegir si van al carrusel de portada, a "Nuestro trabajo" o a ambos.
+  Fotos y videos  Subir imágenes y elegir si van al carrusel de portada, a "Nuestro trabajo" o a ambos.
            Se guardan en una carpeta de Google Drive de la cuenta dueña de la planilla.
   Servicios  Cada servicio tiene el botón "Subir foto desde este dispositivo".
   Promos   Crear promociones: se muestran en la web, se notifican por push a los clientes
            que lo aceptaron y se pueden difundir por WhatsApp cliente por cliente.
+  Videos   En "Fotos y videos": subir un video (MP4/MOV de hasta 20 MB) o pegar un enlace de YouTube.
+           Se muestran en la sección "Nuestros videos" de la web.
+  Compartir  Botón "Compartir" en la web y en el panel para enviar la página a quien aún no es cliente.
